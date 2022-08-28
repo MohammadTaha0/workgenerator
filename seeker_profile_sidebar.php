@@ -18,7 +18,7 @@ $fet_seek = mysqli_fetch_assoc($seek);
     li:hover button{
         opacity: 1;
     }
-</style>
+</style> 
 <div class="card">
     <div class="card-body">
         <div class="d-flex flex-column align-items-center text-center position-relative">
