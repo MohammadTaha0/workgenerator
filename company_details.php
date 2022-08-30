@@ -2,10 +2,10 @@
 session_start();
 include 'conn.php';
 $comp_id = $_GET['comp_id'];
-$sql = mysqli_query($con,"SELECT * FROM `employer` WHERE `ID`='$comp_id'");
+$sql = mysqli_query($con, "SELECT * FROM `employer` WHERE `ID`='$comp_id'");
 $fetch = mysqli_fetch_array($sql);
-$job_sql = mysqli_query($con,"SELECT * FROM `jobs` WHERE `emp_id`='$comp_id'");
-$hire_sql = mysqli_query($con,"SELECT * FROM `applications` WHERE `Status`='1'");
+$job_sql = mysqli_query($con, "SELECT * FROM `jobs` WHERE `emp_id`='$comp_id'");
+$hire_sql = mysqli_query($con, "SELECT * FROM `applications` WHERE `Status`='1'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +17,13 @@ $hire_sql = mysqli_query($con,"SELECT * FROM `applications` WHERE `Status`='1'")
     <title><?php echo $fetch['Company_Name'] ?></title>
     <?php include 'link.php'; ?>
 </head>
+<style>
+    #unfollow {
+        background-color: pink;
+        color: darkred;
+        display: none;
+    }
+</style>
 
 <body class="bg-white">
 
@@ -44,11 +51,12 @@ $hire_sql = mysqli_query($con,"SELECT * FROM `applications` WHERE `Status`='1'")
                         </div>
                         <div class="col-12 mt-5">
                             <h1 class="text-success mb-3 fw-bolder"><?php echo $fetch['Company_Name'] ?></h1>
-                            <p class="badge text-dark mx-0 fs-6">100 Followers</p>
+                            <p class="badge text-dark mx-0 fs-6"> <span id="display_followers"></span> Followers</p>
                             <p class="badge text-dark mx-0 fs-6"><?php echo mysqli_num_rows($hire_sql); ?> Hires</p>
                         </div>
                         <div class="col-12 mt-2">
-                            <button class="btn btn-primary px-4 rounded-3">Follow</button>
+                            <button class="btn btn-primary px-4 rounded-3" data-role="<?php echo $fetch['role']; ?>" data-id="<?php echo $fetch['ID']; ?>" type="button" id="follow">Follow</button>
+                            <button class="btn btn-light px-4 rounded-3" data-role="<?php echo $fetch['role']; ?>" data-id="<?php echo $fetch['ID']; ?>" type="button" id="unfollow">Unfollow</button>
                             <button class="btn btn-secondary px-4 rounded-3">Messege</button>
                         </div>
                     </div>
@@ -56,7 +64,7 @@ $hire_sql = mysqli_query($con,"SELECT * FROM `applications` WHERE `Status`='1'")
                 <div class="col-12 mt-0 mb-1 py-4">
                     <h5 class="text-center my-3 text-success bg-light py-4">Company Details</h5>
                     <ul class="list-unstyled p-0 m-0 text-capitalize">
-                    <li class="mb-3">
+                        <li class="mb-3">
                             <b><i class="text-success fa-solid fa-angle-right me-2"></i> Company Name</b> : <?php echo $fetch['Company_Name'] ?>
                         </li>
                         <li class="mb-3">
@@ -69,12 +77,12 @@ $hire_sql = mysqli_query($con,"SELECT * FROM `applications` WHERE `Status`='1'")
                             <b><i class="text-success fa-solid fa-angle-right me-2"></i> Country</b> : Pakistan
                         </li>
                         <li class="mb-3">
-                            <b><i class="text-success fa-solid fa-angle-right me-2"></i> Jobs Posted</b> : <?php echo mysqli_num_rows($job_sql) ; ?> posted
+                            <b><i class="text-success fa-solid fa-angle-right me-2"></i> Jobs Posted</b> : <?php echo mysqli_num_rows($job_sql); ?> posted
                         </li>
                         <li class="mb-3">
-                            <b><i class="text-success fa-solid fa-angle-right me-2"></i> Hires</b> : 12 hires
+                            <b><i class="text-success fa-solid fa-angle-right me-2"></i> Hires</b> : <?php echo mysqli_num_rows($hire_sql); ?> hires
                         </li>
-                         <li class="mb-3">
+                        <li class="mb-3">
                             <b><i class="text-success fa-solid fa-angle-right me-2"></i>Address</b> <span class="">:<?php echo $fetch['Address'] ?></span>
                         </li>
                         <li class="mb-0">
@@ -99,6 +107,81 @@ $hire_sql = mysqli_query($con,"SELECT * FROM `applications` WHERE `Status`='1'")
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "check_follow_or_not.php",
+                type: "POST",
+                data: {
+                    cehck_id: $("#follow").data('id'),
+                    check_role: $("#follow").data('role'),
+                },
+                success: function(follow) {
+                    console.log(follow);
+                    if (follow == 1) {
+                        $("#unfollow").fadeIn(500);
+                        $("#follow").fadeOut(1);
+                    }
+                }
+            })
+
+            function followers_get() {
+                $.ajax({
+                    url: "followers.php",
+                    type: "POST",
+                    data: {
+                        id: $("#follow").data('id'),
+                        role: $("#follow").data('role'),
+                    },
+                    success: function(followers) {
+                        $("#display_followers").html(followers);
+                    }
+                })
+            }
+            followers_get();
+            $("#follow").click(function() {
+                id = $(this).data('id');
+                role = $(this).data('role');
+                $.post(
+                    "follow.php", {
+                        count: $("#display_followers").text(),
+                        id: id,
+                        role: role,
+                    },
+                    function(following) {
+                        setInterval(followers_get, 5000);
+                        if (following == 1) {
+                            $("#unfollow").fadeIn(500);
+                            $("#follow").fadeOut(1);
+                            // $("#display_followers").load("check_follow_or_not.php");
+                        }
+                    }
+                )
+            });
+            $("#unfollow").click(function() {
+                id = $(this).data('id');
+                role = $(this).data('role');
+                $.post(
+                    "follow.php", {
+                        count: $("#display_followers").text(),
+                        id: id,
+                        role: "unfollow",
+                        userrole: role,
+                    },
+                    function(unfollow) {
+                        setInterval(followers_get, 5000);
+                        $("#unfollow").fadeOut(1);
+                        $("#follow").fadeIn(500);
+                    }
+                )
+            });
+            setInterval(followers_get, 10000)
+
+            // console.log("follow");
+
+        });
+    </script>
 
     <?php include 'link.php'; ?>
     <?php
