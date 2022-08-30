@@ -11,13 +11,13 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT * FROM `jobs` WHERE 
         $job_id = $detch['Auto_generated_ID'];
         $user_id = $_SESSION['auth_user']['User_ID'];
         $emp_id = $detch['emp_id'];
-        $skills = $_POST['native-select'];
+        $skills = $skill_fetch['skills'];
         $msg = $_POST['msg'];
         $file = $_FILES['file']['name'];
         $filetmp = $_FILES['file']['tmp_name'];
         $folder = './upload/' . rand() . "-"  . $file;
         if (move_uploaded_file($_FILES['file']['tmp_name'], $folder)) {
-            $sql = mysqli_query($con, "INSERT INTO `applications`(`job_id`, `User_ID`, `Message`, `skills`, `appResume`, `emp_id`) VALUES('$job_id','$user_id','$msg','$skills','$folder','$emp_id')");
+            $sql = mysqli_query($con, "INSERT INTO `applications`(`job_id`, `User_ID`, `Message`, `appResume`, `emp_id`) VALUES('$job_id','$user_id','$msg','$skills','$folder','$emp_id')");
             if ($sql) {
                 echo 1;
             } else {

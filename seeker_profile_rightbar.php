@@ -1,7 +1,11 @@
 <?php
 session_start();
 include 'conn.php';
-$user_id = $_SESSION['auth_user']['User_ID'];
+if (isset($_SESSION['employer'])) {
+    $user_id = $_SESSION['$session_user_id'];
+} else {
+    $user_id = $_SESSION['auth_user']['User_ID'];
+}
 $seek_pro = mysqli_query($con, "SELECT * FROM `seeker_profile` WHERE `User_ID`='$user_id'");
 $fet_pro = mysqli_fetch_assoc($seek_pro);
 $cat_id = $fet_pro['category'];
@@ -26,11 +30,23 @@ $fet_seek = mysqli_fetch_assoc($seek);
         transition: .5s !important;
     }
 
-    .card-body .row:hover button,
+    <?php
+    if (isset($_SESSION['employer'])) {
+    ?>.card-body .row:hover button,
+    #seeker_details div:hover button {
+        opacity: 0;
+    }
+
+    <?php
+    } else {
+    ?>.card-body .row:hover button,
     #seeker_details div:hover button {
         opacity: 1;
     }
 
+    <?php
+    }
+    ?>
     #skills_input {
         display: none;
     }
@@ -86,9 +102,9 @@ $fet_seek = mysqli_fetch_assoc($seek);
 </div>
 <div class="row gutters-sm justify-content-center">
     <div class="col-sm-6">
-        <div class="card h-100">
+        <div class="card">
             <div class="card-body">
-                <div class="row w-100 align-items-center justify-content-between">
+                <div class="row">
                     <div class="col-6">
                         <h6 class="d-flex align-items-center mb-3 material-icons text-info mr-2">Skills</h6>
 

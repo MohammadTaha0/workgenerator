@@ -90,7 +90,7 @@
                     $(this).text(days + " Days" + " Left")
                 }
             });
-        }, 900)
+        })
 
 
 

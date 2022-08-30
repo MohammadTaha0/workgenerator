@@ -72,24 +72,26 @@ include 'conn.php';
                         <div class="container">
                             <div class="row justify-content-start">
                                 <div class="col-10 col-lg-8">
-                                    <h1 class="display-3 text-white animated slideInDown mb-4">Find The Perfect Job That You Deserved</h1>
-                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-
                                     <?php
                                     if (isset($_SESSION['employer'])) {
                                     ?>
-
+                                        <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best talent That Fit Your Jobs</h1>
+                                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
                                         <a href="#searchcont" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
                                     <?php
                                     } elseif (isset($_SESSION['seeker'])) {
                                     ?>
+                                        <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
+                                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
                                         <a href="#searchcont" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
                                     <?php
                                     } else {
                                     ?>
-                                        <a href="./job_seeker_reg.php" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
+                                        <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
+                                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
+                                        <a href="#searchcont" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
 
-                                        <a href="./employer_reg.php" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
+                                        <a href="#searchcont" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
                                     <?php
                                     }
                                     ?>
@@ -104,21 +106,23 @@ include 'conn.php';
                         <div class="container">
                             <div class="row justify-content-start">
                                 <div class="col-10 col-lg-8">
-                                    <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
-                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-
                                     <?php
                                     if (isset($_SESSION['employer'])) {
                                     ?>
-
+                                        <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best talent That Fit Your Jobs</h1>
+                                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
                                         <a href="#searchcont" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
                                     <?php
                                     } elseif (isset($_SESSION['seeker'])) {
                                     ?>
+                                        <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
+                                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
                                         <a href="#searchcont" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
                                     <?php
                                     } else {
                                     ?>
+                                        <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
+                                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
                                         <a href="#searchcont" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
 
                                         <a href="#searchcont" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
@@ -146,28 +150,40 @@ include 'conn.php';
                         <div class="col-md-10">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control border-0" placeholder="Search Talent" />
+                                    <input type="text" class="form-control border-0" placeholder="Search Talent" id="talent_search" name="talent_search" />
                                 </div>
                                 <div class="col-md-4">
-                                    <select class="form-select border-0">
+                                    <select class="form-select border-0" id="exper_search" name="exper_search">
                                         <option selected>Experience</option>
-                                        <option value="1">1 year</option>
-                                        <option value="2">2 Year</option>
-                                        <option value="3">3 Year</option>
+                                        <?php
+                                        $exper = mysqli_query($con, "SELECT `exper` FROM `seeker_profile` ORDER BY `exper` ASC");
+                                        while ($exper_fetch = mysqli_fetch_array($exper)) {
+
+                                        ?>
+                                            <option value="<?php echo $exper_fetch['exper'] ?>"><?php echo $exper_fetch['exper'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <select class="form-select border-0">
-                                        <option selected>Skills</option>
-                                        <option value="1">Location 1</option>
-                                        <option value="2">Location 2</option>
-                                        <option value="3">Location 3</option>
+                                    <select class="form-select border-0" id="cat_search" name="cat_search">
+                                        <option selected>Category</option>
+                                        <?php
+                                        $category = mysqli_query($con, "SELECT `cat_name` FROM `category` ORDER BY `cat_name` ASC");
+                                        while ($category_fetch = mysqli_fetch_array($category)) {
+
+                                        ?>
+                                            <option value="<?php echo $category_fetch['cat_id'] ?>"><?php echo $category_fetch['cat_name'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-dark border-0 w-100">Search</button>
+                            <button class="btn btn-dark border-0 w-100" type="button" id="search_talent">Search</button>
                         </div>
                     </div>
                 </div>
@@ -188,10 +204,10 @@ include 'conn.php';
                                         <select class="form-select border-0" name="cat_srch" id="cat_srch" required>
                                             <option selected>Category</option>
                                             <?php
-                                            if (mysqli_num_rows($jobsel = mysqli_query($con, "SELECT `Category` FROM `jobs`"))) {
+                                            if (mysqli_num_rows($jobsel = mysqli_query($con, "SELECT `cat_name` FROM `category` ORDER BY `cat_name` ASC"))) {
                                                 while ($selfetch = mysqli_fetch_array($jobsel)) {
                                             ?>
-                                                    <option value="<?php echo $selfetch['Category'] ?>"><?php echo $selfetch['Category'] ?></option>
+                                                    <option value="<?php echo $selfetch['cat_id'] ?>"><?php echo $selfetch['cat_name'] ?></option>
                                             <?php
                                                 }
                                             }
@@ -202,7 +218,7 @@ include 'conn.php';
                                         <select class="form-select border-0" name="loc_srch" id="loc_srch" required>
                                             <option selected>Location</option>
                                             <?php
-                                            if (mysqli_num_rows($jobsel = mysqli_query($con, "SELECT `Location` FROM `jobs`"))) {
+                                            if (mysqli_num_rows($jobsel = mysqli_query($con, "SELECT `Location` FROM `jobs` ORDER BY `Location` ASC"))) {
                                                 while ($selfetch = mysqli_fetch_array($jobsel)) {
                                             ?>
                                                     <option value="<?php echo $selfetch['Location'] ?>"><?php echo $selfetch['Location'] ?></option>
@@ -229,7 +245,21 @@ include 'conn.php';
             <div class="tab-cont" id="res">
             </div>
         </div>
+        <style>
+            #talent_result .col-3 {
+                /* display: none; */
+                transition: 1s;
+            }
+        </style>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-11">
+                    <div class="row justify-content-center" id="talent_result">
 
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
             $(document).ready(function() {
                 $("#srch").click(function() {
@@ -246,6 +276,37 @@ include 'conn.php';
                         }
                     )
                 })
+                $("#search_talent").click(function() {
+                    $("div[data-role=talent_res]").animate({
+                        'opacity': '0.0'
+                    });
+                    talent = $("#talent_search").val();
+                    exper = $("#exper_search").val();
+                    cat = $("#cat_search").val();
+                    if (talent == "") {
+                        alert("Talent Is Required");
+                    } else if (exper == "Experience") {
+                        alert("Experience Is Required");
+                    } else if (cat == "category") {
+                        alert("category Is Required");
+                    } else {
+                        $.post(
+                            "search_talent.php", {
+                                talent: talent,
+                                exper: exper,
+                                cat: cat,
+                            },
+                            function(talent_data) {
+                                $("#talent_result").html(talent_data);
+                                $("div[data-role=talent_res]").animate({
+                                    'opacity': '1'
+                                }, 1000);
+
+                            }
+                        )
+                    }
+                    // alert(talent + " " + exper + " " + skill) 
+                })
             });
         </script>
 
@@ -255,12 +316,12 @@ include 'conn.php';
                 <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore Our Company</h1>
                 <div class="row g-4 mt-2 justify-content-center">
                     <?php
-                    if (mysqli_num_rows($cat = mysqli_query($con, "SELECT `Company_Name`,`Number_of_Employees` FROM `employer`")) > 0) {
+                    if (mysqli_num_rows($cat = mysqli_query($con, "SELECT `ID`,`Company_Name`,`Number_of_Employees` FROM `employer`")) > 0) {
                         while ($cet_data = mysqli_fetch_array($cat)) {
                     ?>
                             <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                                <a class="cat-item rounded p-4" href="">
-                                    <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i>
+                                <a class="cat-item rounded p-4" href="company_details.php?comp_id=<?php echo $cet_data['ID'] ?>">
+                                    <i class="fa-regular fa-buildings fa-3x text-primary mb-4"></i>
                                     <h6 class="mb-3"><?php echo $cet_data['Company_Name'] ?></h6>
                                     <p class="mb-0"><?php echo $cet_data['Number_of_Employees'] ?> Employees</p>
                                 </a>
@@ -338,106 +399,12 @@ include 'conn.php';
                         </ul>
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane fade show p-0 active">
-                                <?php
-                                if ($jobs = mysqli_query($con, "SELECT * FROM `jobs`")) {
-                                    if (mysqli_num_rows($jobs)) {
-                                        while ($jobrow = mysqli_fetch_array($jobs)) {
-                                ?>
-                                            <div class="job-item p-4 mb-4" id="<?php echo $jobrow['Auto_generated_ID']; ?>">
-                                                <div class="row g-4">
-                                                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                        <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
-                                                        <div class="text-start ps-4">
-                                                            <h5 class="mb-3"><?php echo $jobrow['Title']; ?></h5>
-                                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $jobrow['Location']; ?></span>
-                                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php if ($jobrow['Job_Role'] == 0) {
-                                                                                                                                                echo "Part Time";
-                                                                                                                                            } elseif ($jobrow['Job_Role'] == 1) {
-                                                                                                                                                echo "Full Time";
-                                                                                                                                            } ?></span>
-                                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $jobrow['min_sal'] . ' - ' . $jobrow['max_sal']; ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                        <div class="d-flex mb-3">
-                                                            <?php
-                                                            if (isset($_SESSION['seeker'])) {
-                                                            ?>
-                                                                <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                                <a class="btn btn-primary" href="./job-detail.php?jobid=<?php echo $jobrow['Auto_generated_ID']; ?>">View Details</a>
-                                                            <?php
-                                                            } else {
-                                                            ?>
-                                                                <a class="btn btn-light btn-square me-3" href="./login.php"><i class="far fa-heart text-primary"></i></a>
-                                                                <a class="btn btn-primary" href="./login.php">View Details</a>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                        <small class="text-truncate"><i class="fa-regular fa-calendar text-primary me-2"></i>Publish: <time class="timeago" datetime="<?php echo $jobrow['Date']; ?>"></time></small>
-                                                        <small class="text-truncate mt-2"><i class="fa-regular fa-clock text-primary me-2"></i>
-                                                            <input type="hidden" data-role="jobid" value="<?php echo $jobrow['Auto_generated_ID']; ?>"><span data-role="left" data-value="<?php echo $jobrow['Auto_generated_ID']; ?>" data-id="<?php echo $jobrow['lastdate']; ?>"></span> </small>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                <?php
-                                        }
-                                    }
-                                }
-                                ?>
                                 <a class="btn btn-primary py-3 px-5" href="./job-list.php">Browse More Jobs</a>
 
                             </div>
 
                             <div id="tab-2" class="tab-pane fade show p-0">
-                                <?php
-                                if ($jobs = mysqli_query($con, "SELECT * FROM `jobs` WHERE `Job_Role`=1")) {
-                                    if (mysqli_num_rows($jobs)) {
-                                        while ($jobrow = mysqli_fetch_array($jobs)) {
-                                ?>
-                                            <div class="job-item p-4 mb-4">
-                                                <div class="row g-4">
-                                                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                        <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
-                                                        <div class="text-start ps-4">
-                                                            <h5 class="mb-3"><?php echo $jobrow['Title']; ?></h5>
-                                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $jobrow['Location']; ?></span>
-                                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php if ($jobrow['Job_Role'] == 0) {
-                                                                                                                                                echo "Part Time";
-                                                                                                                                            } elseif ($jobrow['Job_Role'] == 1) {
-                                                                                                                                                echo "Full Time";
-                                                                                                                                            } ?></span>
-                                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $jobrow['min_sal'] . ' - ' . $jobrow['max_sal']; ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                        <div class="d-flex mb-3">
-                                                            <?php
-                                                            if (isset($_SESSION['seeker'])) {
-                                                            ?>
-                                                                <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                                <a class="btn btn-primary" href="./job-detail.php?jobid=<?php echo $jobrow['Auto_generated_ID']; ?>">View Details</a>
-                                                            <?php
-                                                            } else {
-                                                            ?>
-                                                                <a class="btn btn-light btn-square me-3" href="./login.php"><i class="far fa-heart text-primary"></i></a>
-                                                                <a class="btn btn-primary" href="./login.php">View Details</a>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                        <small class="text-truncate"><i class="fa-regular fa-calendar text-primary me-2"></i>Publish: <time class="timeago" datetime="<?php echo $jobrow['Date']; ?>"></time></small>
-                                                        <small class="text-truncate mt-2"><i class="fa-regular fa-clock text-primary me-2"></i>
-                                                            <input type="hidden" data-role="jobid" value="<?php echo $jobrow['Auto_generated_ID']; ?>"><span data-role="left" data-value="<?php echo $jobrow['Auto_generated_ID']; ?>" data-id="<?php echo $jobrow['lastdate']; ?>"></span> </small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                <?php
-                                        }
-                                    }
-                                }
-                                ?>
                                 <a class="btn btn-primary py-3 px-5" href="./job-list.php">Browse More Jobs</a>
                             </div>
                             <div id="tab-3" class="tab-pane fade show p-0">
@@ -1038,7 +1005,7 @@ include 'conn.php';
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
     <script src="./timeago/jquery.timeago.js"></script>
     <script type="text/javascript">
@@ -1049,7 +1016,49 @@ include 'conn.php';
     <?php
     include 'link.php';
     ?>
-
+    <script>
+        $(document).ready(function() {
+            function getjobsdata() {
+                $.ajax({
+                    url: "alljobscode.php",
+                    data: {
+                        lim: "LIMIT 6",
+                        where: " "
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function(jobs) {
+                        $("#tab-1").html(jobs);
+                    }
+                })
+                $.ajax({
+                    url: "alljobscode.php",
+                    data: {
+                        lim: "LIMIT 6",
+                        where: "WHERE `Job_Role`='1'"
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function(fulltime) {
+                        $("#tab-2").html(fulltime);
+                    }
+                })
+                $.ajax({
+                    url: "alljobscode.php",
+                    data: {
+                        lim: "LIMIT 6",
+                        where: "WHERE `Job_Role`='0'"
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function(Paertime) {
+                        $("#tab-3").html(Paertime);
+                    }
+                })
+            }
+            getjobsdata();
+        })
+    </script>
 </body>
 
 

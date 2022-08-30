@@ -57,11 +57,11 @@ include 'conn.php';
                 <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore Our Company</h1>
                 <div class="row g-4 mt-2 justify-content-center">
                     <?php
-                    if (mysqli_num_rows($cat = mysqli_query($con, "SELECT `Company_Name`,`Number_of_Employees` FROM `employer`")) > 0) {
+                    if (mysqli_num_rows($cat = mysqli_query($con, "SELECT `ID`,`Company_Name`,`Number_of_Employees` FROM `employer`")) > 0) {
                         while ($cet_data = mysqli_fetch_array($cat)) {
                     ?>
                             <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                                <a class="cat-item rounded p-4" href="">
+                                <a class="cat-item rounded p-4" href="company_details.php?comp_id=<?php echo $cet_data['ID'] ?>">
                                     <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i>
                                     <h6 class="mb-3"><?php echo $cet_data['Company_Name'] ?></h6>
                                     <p class="mb-0"><?php echo $cet_data['Number_of_Employees'] ?> Employees</p>

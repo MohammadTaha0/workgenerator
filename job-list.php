@@ -73,112 +73,13 @@ session_start();
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <?php
-                            if ($jobs = mysqli_query($con, "SELECT * FROM `jobs`")) {
-                                if (mysqli_num_rows($jobs)) {
-                                    while ($jobrow = mysqli_fetch_array($jobs)) {
-                            ?>
-                                        <div class="job-item p-4 mb-4">
-                                            <div class="row g-4">
-                                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                    <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
-                                                    <div class="text-start ps-4">
-                                                        <h5 class="mb-3"><?php echo $jobrow['Title']; ?></h5>
-                                                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $jobrow['Location']; ?></span>
-                                                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php if ($jobrow['Job_Role'] == 0) {
-                                                                                                                                            echo "Part Time";
-                                                                                                                                        } elseif ($jobrow['Job_Role'] == 1) {
-                                                                                                                                            echo "Full Time";
-                                                                                                                                        } ?></span>
-                                                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $jobrow['min_sal'] . ' - ' . $jobrow['max_sal']; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                    <div class="d-flex mb-3">
-                                                        <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                        <a class="btn btn-primary" href="./job-detail.php?jobid=<?php echo $jobrow['Auto_generated_ID']; ?>">Apply Now</a>
-                                                    </div>
-                                                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: <?php echo $jobrow['lastdate']; ?></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                            <?php
-                                    }
-                                }
-                            }
-                            ?>
+
                         </div>
                         <div id="tab-2" class="tab-pane fade show p-0">
-                            <?php
-                            if ($jobs = mysqli_query($con, "SELECT * FROM `jobs` WHERE `Job_Role`=1")) {
-                                if (mysqli_num_rows($jobs)) {
-                                    while ($jobrow = mysqli_fetch_array($jobs)) {
-                            ?>
-                                        <div class="job-item p-4 mb-4">
-                                            <div class="row g-4">
-                                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                    <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
-                                                    <div class="text-start ps-4">
-                                                        <h5 class="mb-3"><?php echo $jobrow['Title']; ?></h5>
-                                                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $jobrow['Location']; ?></span>
-                                                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php if ($jobrow['Job_Role'] == 0) {
-                                                                                                                                            echo "Part Time";
-                                                                                                                                        } elseif ($jobrow['Job_Role'] == 1) {
-                                                                                                                                            echo "Full Time";
-                                                                                                                                        } ?></span>
-                                                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $jobrow['min_sal'] . ' - ' . $jobrow['max_sal']; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                    <div class="d-flex mb-3">
-                                                        <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                        <a class="btn btn-primary" href="./job-detail.php?jobid=<?php echo $jobrow['Auto_generated_ID']; ?>">Apply Now</a>
-                                                    </div>
-                                                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: 01 Jan, 2045</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                            <?php
-                                    }
-                                }
-                            }
-                            ?>
+
                         </div>
                         <div id="tab-3" class="tab-pane fade show p-0">
-                            <?php
-                            if ($jobs = mysqli_query($con, "SELECT * FROM `jobs` WHERE `Job_Role`=0")) {
-                                if (mysqli_num_rows($jobs)) {
-                                    while ($jobrow = mysqli_fetch_array($jobs)) {
-                            ?>
-                                        <div class="job-item p-4 mb-4">
-                                            <div class="row g-4">
-                                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                    <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
-                                                    <div class="text-start ps-4">
-                                                        <h5 class="mb-3"><?php echo $jobrow['Title']; ?></h5>
-                                                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $jobrow['Location']; ?></span>
-                                                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php if ($jobrow['Job_Role'] == 0) {
-                                                                                                                                            echo "Part Time";
-                                                                                                                                        } elseif ($jobrow['Job_Role'] == 1) {
-                                                                                                                                            echo "Full Time";
-                                                                                                                                        } ?></span>
-                                                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $jobrow['min_sal'] . ' - ' . $jobrow['max_sal']; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                    <div class="d-flex mb-3">
-                                                        <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                        <a class="btn btn-primary" href="./job-detail.php?jobid=<?php echo $jobrow['Auto_generated_ID']; ?>">Apply Now</a>
-                                                    </div>
-                                                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: 01 Jan, 2045</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                            <?php
-                                    }
-                                }
-                            }
-                            ?>
+
                         </div>
                     </div>
                 </div>
@@ -201,6 +102,49 @@ session_start();
     <?php
     include 'link.php';
     ?>
+    <script>
+        $(document).ready(function() {
+            function getjobsdata() {
+                $.ajax({
+                    url: "alljobscode.php",
+                    data: {
+                        lim: " ",
+                        where: " "
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function(jobs) {
+                        $("#tab-1").html(jobs);
+                    }
+                })
+                $.ajax({
+                    url: "alljobscode.php",
+                    data: {
+                        lim: " ",
+                        where: "WHERE `Job_Role`='1'"
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function(fulltime) {
+                        $("#tab-2").html(fulltime);
+                    }
+                })
+                $.ajax({
+                    url: "alljobscode.php",
+                    data: {
+                        lim: " ",
+                        where: "WHERE `Job_Role`='0'"
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function(Paertime) {
+                        $("#tab-3").html(Paertime);
+                    }
+                })
+            }
+            getjobsdata();
+        })
+    </script>
 </body>
 
 </html>

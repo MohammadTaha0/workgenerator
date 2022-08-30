@@ -61,18 +61,20 @@ if (!isset($_SESSION['employer'])) {
         <div class="container-xxl py-5 position-relative">
 
             <div class="container">
-                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Applications</h1>
                 <div class="row">
                     <div class="col-12">
                         <table class="table table-bordered text-center align-middle">
                             <thead>
                                 <tr>
+                                    <th>Job</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Contact</th>
                                     <th>Experienece</th>
                                     <th>Skills</th>
                                     <th>Resume</th>
+                                    <th>Msg</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -81,18 +83,23 @@ if (!isset($_SESSION['employer'])) {
                                 $emp_id = $_SESSION['auth_user']['ID'];
                                 if (mysqli_num_rows($details = mysqli_query($con, "SELECT * FROM `applications` A CROSS JOIN `jobs` B ON A.`emp_id`='$emp_id' AND B.`Auto_generated_ID`=A.`job_id` JOIN `job_seeker` C ON A.User_ID = C.User_ID")) > 0) {
                                     while ($fetchdet = mysqli_fetch_assoc($details)) {
+                                        $user_id = $fetchdet['User_ID'];
+                                        $skill = mysqli_query($con, "SELECT `skills`,`exper` FROM `seeker_profile` WHERE `user_id`='$user_id'");
+                                        $skill_fetch = mysqli_fetch_array($skill);
                                 ?>
                                         <tr id="<?php echo $fetchdet['id']; ?>">
+                                            <td><?php echo $fetchdet['Title']; ?></td>
                                             <td><?php echo $fetchdet['Name']; ?></td>
                                             <td><?php echo $fetchdet['Email']; ?></td>
                                             <td><?php echo $fetchdet['Contact']; ?></td>
-                                            <td><?php echo $fetchdet['Experience']; ?></td>
-                                            <td><?php echo $fetchdet['skills']; ?></td>
+                                            <td><?php echo $skill_fetch['exper']; ?></td>
+                                            <td><?php echo $skill_fetch['skills']; ?></td>
                                             <td data-role="resume" class="<?php echo $fetchdet['appResume']; ?>">
                                                 <form class="pdf_form">
                                                     <button type="button" data-role="update" data-id="<?php echo $fetchdet['id']; ?>" class="btn btn-primary" id="resume">View</button>
                                                 </form>
                                             </td>
+                                            <td><?php echo $fetchdet['Message']; ?></td>
                                             <td>
                                                 <span data-role="display_edit" data-id="<?php echo (($fetchdet['Status'] == 0) ? 'Request' : 'Hired'); ?>"><?php echo (($fetchdet['Status'] == 0) ? 'Request' : 'Hired'); ?></span>
                                                 <form id="editform">
@@ -116,7 +123,7 @@ if (!isset($_SESSION['employer'])) {
                         <button type="button" class="btn btn-danger position-absolute top-0 end-0" id="pdf_close"><i class="fa-solid fa-times"></i></button>
                         <iframe id="pathpdf" src="" frameborder="0" width="100%" height="100%"></iframe>
                     </div>
-                </div> 
+                </div>
             </div>
 
             <script>

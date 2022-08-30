@@ -1,7 +1,12 @@
 <?php
 session_start();
 include 'conn.php';
-$user_id = $_SESSION['auth_user']['User_ID'];
+if (isset($_SESSION['employer'])) {
+    $user_id = $_GET['user_id'];
+    $_SESSION['$session_user_id'] = $user_id;
+} else {
+    $user_id = $_SESSION['auth_user']['User_ID'];
+}
 $seek = mysqli_query($con, "SELECT * FROM `job_seeker` WHERE `User_ID`='$user_id'");
 $fet_seek = mysqli_fetch_assoc($seek);
 ?>
@@ -66,7 +71,11 @@ $fet_seek = mysqli_fetch_assoc($seek);
             <div class="main-body">
                 <div class="row gutters-sm position-relative justify-content-center" id="load">
                     <?php
-                    $user_id = $_SESSION['auth_user']['User_ID'];
+                    if (isset($_SESSION['employer'])) {
+                        $user_id = $_GET['user_id'];
+                    } else {
+                        $user_id = $_SESSION['auth_user']['User_ID'];
+                    }
                     if (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `seeker_profile` WHERE `user_id`='$user_id'")) == 0) {
                     ?>
                         <div class="col-lg-8" id="hide">
@@ -396,24 +405,16 @@ $fet_seek = mysqli_fetch_assoc($seek);
                     contentType: false,
                     processData: false,
                     success: function(pro_data) {
-                        console.log(pro_data);
                         if (pro_data == 1) {
                             alert("Build Your Profile SuccessFully")
                             $("#hide").fadeOut(500);
                             $("#show").fadeIn(500);
-                            $("#load").load();
+                            $("#load").load("profile.php");
                         } else {
                             alert("Something Went Wrong")
                         }
                     }
                 })
-            })
-            $("#pro_img_click").mouseover(function() {
-                $("#click_img_show").fadeIn(400);
-            })
-            $("#click_img_show").mouseleave(function() {
-                $("#click_img_show").fadeOut(400);
-
             })
             $.ajax({
                 url: "seeker_profile_sidebar.php",

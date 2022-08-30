@@ -4,11 +4,14 @@ include 'conn.php';
 $userid = $_SESSION['auth_user']['User_ID'];
 if (mysqli_num_rows($rowapp = mysqli_query($con, "SELECT * FROM `applications` A INNER JOIN `jobs` B WHERE A.`User_id`='$userid' AND B.`Auto_generated_ID`=A.`job_id` ")) > 0) {
     while ($fetchapp = mysqli_fetch_array($rowapp)) {
+        $user_id = $_SESSION['auth_user']['User_ID'];
+        $skill = mysqli_query($con, "SELECT `skills` FROM `seeker_profile` WHERE `user_id`='$user_id'");
+        $skill_fetch = mysqli_fetch_array($skill);
 ?>
 
         <tr id="<?php echo $fetchapp['id']; ?>">
             <td><?php echo $fetchapp['Title']; ?></td>
-            <td><?php echo $fetchapp['skills']; ?></td>
+            <td><?php echo $skill_fetch['skills']; ?></td>
             <td><?php echo $fetchapp['Category']; ?></td>
             <td><?php echo $fetchapp['Location']; ?></td>
             <td><?php echo $fetchapp['min_sal'] . ' - ' . $fetchapp['max_sal']; ?></td>
@@ -119,6 +122,7 @@ if (mysqli_num_rows($rowapp = mysqli_query($con, "SELECT * FROM `applications` A
             </td>
         </tr>
     <?php
+
     }
 } else {
     ?>

@@ -39,7 +39,7 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
         ?>
 
         <!-- Header End -->
-        <div class="container-xxl py-5 bg-dark page-header mb-5">
+        <div class="container-fluid py-5 bg-dark page-header mb-5">
             <div class="container my-5 pt-5 pb-4">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
                 <nav aria-label="breadcrumb">
@@ -54,7 +54,7 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
 
 
         <!-- Job Detail Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row gy-5 gx-4">
                     <div class="col-lg-8">
@@ -101,99 +101,85 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
                         </script>
                         <div class="">
                             <h4 class="mb-4">Apply For The Job</h4>
-                            <form id="form" enctype="multipart/form-data">
-                                <div class="row g-3">
-                                    <div class="col-12 col-sm-6">
-                                        <input type="file" class="form-control d-none" name="file" id="file">
-                                        <label for="file" id="lab" class="border w-100 h6 bg-primary text-light py-2 d-flex align-items-center justify-content-center" style="cursor: pointer;">Upload Your Resume</label>
-                                    </div>
-                                    <style>
-                                        *,
-                                        *:after,
-                                        *:before {
-                                            -webkit-box-sizing: border-box;
-                                            -moz-box-sizing: border-box;
-                                            -ms-box-sizing: border-box;
-                                            box-sizing: border-box;
-                                        }
+                            <div class="row">
+                                <div class="col-6">
+                                    <form id="form" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="file" class="form-control d-none" name="file" id="file">
+                                                <label for="file" id="lab" class="border w-100 h6 bg-primary text-light py-2 d-flex align-items-center justify-content-center" style="cursor: pointer;">Upload Your Resume</label>
+                                            </div>
+                                            <style>
+                                                *,
+                                                *:after,
+                                                *:before {
+                                                    -webkit-box-sizing: border-box;
+                                                    -moz-box-sizing: border-box;
+                                                    -ms-box-sizing: border-box;
+                                                    box-sizing: border-box;
+                                                }
 
-                                        body {
-                                            font-family: arial;
-                                            font-size: 16px;
-                                            margin: 0;
-                                            background: #0f4dff;
-                                            background: #003ce9;
-                                            background: #0276ad;
+                                                body {
+                                                    font-family: arial;
+                                                    font-size: 16px;
+                                                    margin: 0;
+                                                    background: #0f4dff;
+                                                    background: #003ce9;
+                                                    background: #0276ad;
 
-                                            color: #fff;
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                            min-height: 100vh;
-                                        }
+                                                    color: #fff;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                    min-height: 100vh;
+                                                }
 
-                                        #multi_option {
-                                            max-width: 100%;
-                                            width: 350px;
-                                        }
+                                                #multi_option {
+                                                    max-width: 100%;
+                                                    width: 350px;
+                                                }
 
-                                        label {
-                                            display: block;
-                                            font-size: 18px;
-                                            font-weight: 700;
-                                            margin-bottom: 5px;
-                                        }
+                                                label {
+                                                    display: block;
+                                                    font-size: 18px;
+                                                    font-weight: 700;
+                                                    margin-bottom: 5px;
+                                                }
 
-                                        .vscomp-toggle-button {
-                                            padding: 10px 30px 10px 10px;
-                                            border-radius: 5px;
-                                        }
-                                    </style>
-                                    <div class="col-6">
-                                        <select id="multi_option" class="w-100" multiple name="native-select" placeholder="Native Select" data-silent-initial-value-set="false">
-                                            <?php
+                                                .vscomp-toggle-button {
+                                                    padding: 10px 30px 10px 10px;
+                                                    border-radius: 5px;
+                                                }
+                                            </style>
+                                            <div class="col-12">
+                                                <textarea class="form-control" rows="5" placeholder="Messege" id="msg" name="msg"></textarea>
+                                            </div>
 
-                                            $skills = ['HTML', 'CSS', 'Java Script', 'Jquery', 'Wordpress', 'PHP', 'ASP.Net', 'Bootsrap 5', 'React', 'Angular', 'Laravel', 'Django', 'Flutter', 'Dart Programming'];
-                                            for ($i = 0; $i < count($skills); $i++) {
-                                            ?>
-                                                <option value="<?php echo $skills[$i]; ?>"><?php echo $skills[$i]; ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                        <input type="hidden" name="job_id" id="job_id" value="<?php echo $jobid; ?>">
-                                    </div>
-                                    <div class="col-12">
-                                        <textarea class="form-control" rows="5" placeholder="Messege" id="msg" name="msg"></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 mt-5" type="submit" name="submit" id="submit">Apply Now</button>
-                                    </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary w-100 mt-3" type="submit" name="submit" id="submit">Apply Now</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                             <script>
                                 $(document).ready(function() {
                                     $("#file").change(function() {
-                                        // alert("taha")
                                         resume = $("#file").val();
-                                        //    alert(resume);
                                         $("#lab").text(resume);
                                     })
                                     $("#form").on("submit", function(e) {
                                         var formData = new FormData(this);
                                         e.preventDefault();
-                                        // alert($("#multi_option").val());
                                         name = $("#name").val();
                                         email = $("#email").val();
                                         phone = $("#phone").val();
                                         file = $("#file").val();
-                                        multi_option = $("#multi_option").val();
+                                        // multi_option = $("#multi_option").val();
                                         jobid = $("#job_id").val();
                                         msg = $("#msg").val();
                                         if (file == "") {
                                             alert("Resume Is Required");
-                                        } else if (multi_option == "") {
-                                            alert("At least 1 Skills Are Required");
                                         } else if (msg == "") {
                                             alert("Messege Is Required");
                                         } else {
@@ -204,6 +190,7 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
                                                 contentType: false,
                                                 processData: false,
                                                 success: function(data) {
+                                                    console.log(data);
                                                     if (data == 1) {
                                                         alert("APPLIED");
                                                     } else if (data == 0) {
