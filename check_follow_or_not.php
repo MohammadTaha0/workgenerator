@@ -3,8 +3,6 @@ session_start();
 include 'conn.php';
 $follow_role = $_POST['check_role'];
 $follow_id = $_POST['cehck_id'];
-// echo $follow_id;
-// echo $follow_role;
 if (isset($_SESSION['employer'])) {
     $user_id = $_SESSION['auth_user']['ID'];
     $sel_role = mysqli_query($con, "SELECT `role` FROM `employer` WHERE `ID`='$user_id'");

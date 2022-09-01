@@ -109,54 +109,13 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
                                                 <input type="file" class="form-control d-none" name="file" id="file">
                                                 <label for="file" id="lab" class="border w-100 h6 bg-primary text-light py-2 d-flex align-items-center justify-content-center" style="cursor: pointer;">Upload Your Resume</label>
                                             </div>
-                                            <style>
-                                                *,
-                                                *:after,
-                                                *:before {
-                                                    -webkit-box-sizing: border-box;
-                                                    -moz-box-sizing: border-box;
-                                                    -ms-box-sizing: border-box;
-                                                    box-sizing: border-box;
-                                                }
-
-                                                body {
-                                                    font-family: arial;
-                                                    font-size: 16px;
-                                                    margin: 0;
-                                                    background: #0f4dff;
-                                                    background: #003ce9;
-                                                    background: #0276ad;
-
-                                                    color: #fff;
-                                                    display: flex;
-                                                    align-items: center;
-                                                    justify-content: center;
-                                                    min-height: 100vh;
-                                                }
-
-                                                #multi_option {
-                                                    max-width: 100%;
-                                                    width: 350px;
-                                                }
-
-                                                label {
-                                                    display: block;
-                                                    font-size: 18px;
-                                                    font-weight: 700;
-                                                    margin-bottom: 5px;
-                                                }
-
-                                                .vscomp-toggle-button {
-                                                    padding: 10px 30px 10px 10px;
-                                                    border-radius: 5px;
-                                                }
-                                            </style>
                                             <div class="col-12">
                                                 <textarea class="form-control" rows="5" placeholder="Messege" id="msg" name="msg"></textarea>
                                             </div>
 
                                             <div class="col-12">
                                                 <button class="btn btn-primary w-100 mt-3" type="submit" name="submit" id="submit">Apply Now</button>
+                                                <input type="hidden" name="job_id" value="<?php echo $jobid; ?>">
                                             </div>
                                         </div>
                                     </form>

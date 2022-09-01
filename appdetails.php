@@ -81,14 +81,14 @@ if (!isset($_SESSION['employer'])) {
                             <tbody>
                                 <?php
                                 $emp_id = $_SESSION['auth_user']['ID'];
-                                if (mysqli_num_rows($details = mysqli_query($con, "SELECT * FROM `applications` A CROSS JOIN `jobs` B ON A.`emp_id`='$emp_id' AND B.`Auto_generated_ID`=A.`job_id` JOIN `job_seeker` C ON A.User_ID = C.User_ID")) > 0) {
+                                if (mysqli_num_rows($details = mysqli_query($con, "SELECT * FROM `applications` APP INNER JOIN `jobs` JOB ON APP.`job_id`=JOB.`Auto_generated_ID` INNER JOIN `job_seeker` seeker WHERE APP.`User_ID`=seeker.`User_ID` AND APP.`emp_id`='$emp_id';")) > 0) {
                                     while ($fetchdet = mysqli_fetch_assoc($details)) {
                                         $user_id = $fetchdet['User_ID'];
                                         $skill = mysqli_query($con, "SELECT `skills`,`exper` FROM `seeker_profile` WHERE `user_id`='$user_id'");
                                         $skill_fetch = mysqli_fetch_array($skill);
                                 ?>
                                         <tr id="<?php echo $fetchdet['id']; ?>">
-                                            <td><?php echo $fetchdet['Title']; ?></td>
+                                            <td data-role="title"><?php echo $fetchdet['Title']; ?></td>
                                             <td><?php echo $fetchdet['Name']; ?></td>
                                             <td><?php echo $fetchdet['Email']; ?></td>
                                             <td><?php echo $fetchdet['Contact']; ?></td>
@@ -101,9 +101,12 @@ if (!isset($_SESSION['employer'])) {
                                             </td>
                                             <td><?php echo $fetchdet['Message']; ?></td>
                                             <td>
-                                                <span data-role="display_edit" data-id="<?php echo (($fetchdet['Status'] == 0) ? 'Request' : 'Hired'); ?>"><?php echo (($fetchdet['Status'] == 0) ? 'Request' : 'Hired'); ?></span>
+                                                <span data-role="display_edit" data-id="<?php echo (($fetchdet['Status'] == "0") ? 'Request' : 'Hired'); ?>"><?php echo (($fetchdet['Status'] == "0") ? 'Request' : 'Hired'); ?></span>
                                                 <form id="editform">
                                                     <button type="button" data-id="<?php echo $fetchdet['id']; ?>" data-role="statusupf" id="edit" name="update_status" class="btn btn-primary text-light"><i class="fa-regular fa-edit"></i></button>
+                                                    <input type="hidden" value="<?php echo $fetchdet['User_ID']; ?>" data-role="seeker_id">
+                                                    <input type="hidden" value="<?php echo $fetchdet['id']; ?>" data-role="job_id">
+                                                    <input type="hidden" value="<?php echo $_SESSION['auth_user']['ID']; ?>" data-role="emp_id">
                                                 </form>
                                             </td>
                                         </tr>
@@ -154,7 +157,39 @@ if (!isset($_SESSION['employer'])) {
                     })
                     $("button[data-role=upd-status]").click(function() {
                         ids = $(input_update).val();
+                        id = $(this).data('id');
                         update_val = $("#updatestatus").val();
+                        // alert();
+
+                        if ($("#updatestatus").val() == "1") {
+                            $.post(
+                                "send_hire.php", {
+                                    seeker: $("#" + ids).children("td").children("form").children("input[data-role=seeker_id]").val(),
+                                    emp: $("#" + ids).children("td").children("form").children("input[data-role=emp_id]").val(),
+                                    app_id: $("#" + ids).children("td").children("form").children("input[data-role=job_id]").val(),
+                                    title: $("#" + ids).children("td[data-role=title]").text(),
+                                    hire: "hired",
+                                },
+                                function(noti) {
+                                    console.log(noti);
+                                }
+                            )
+                        }
+                        else if ($("#updatestatus").val() == "0") {
+                            $.post(
+                                "send_hire.php", {
+                                    seeker: $("#" + ids).children("td").children("form").children("input[data-role=seeker_id]").val(),
+                                    emp: $("#" + ids).children("td").children("form").children("input[data-role=emp_id]").val(),
+                                    app_id: $("#" + ids).children("td").children("form").children("input[data-role=job_id]").val(),
+                                    title: $("#" + ids).children("td[data-role=title]").text(),
+                                    hire: "req",
+                                },
+                                function(noti) {
+                                    console.log(noti);
+                                }
+                            )
+                            // alert("req");
+                        }
                         $.ajax({
                             url: "update_status.php",
                             type: "POST",

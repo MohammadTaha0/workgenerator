@@ -125,7 +125,6 @@ $hire_sql = mysqli_query($con, "SELECT * FROM `applications` WHERE `Status`='1'"
                     }
                 }
             })
-
             function followers_get() {
                 $.ajax({
                     url: "followers.php",
@@ -177,9 +176,6 @@ $hire_sql = mysqli_query($con, "SELECT * FROM `applications` WHERE `Status`='1'"
                 )
             });
             setInterval(followers_get, 10000)
-
-            // console.log("follow");
-
         });
     </script>
 

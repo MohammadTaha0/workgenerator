@@ -26,10 +26,20 @@ $fet_seek = mysqli_fetch_assoc($seek);
         opacity: 0;
     }
 
+    #unfollow {
+        background-color: pink;
+        color: darkred;
+        display: none;
+    }
+
     <?php
-    } else {
+    } elseif (isset($_SESSION['seeker'])) {
     ?>li:hover button {
         opacity: 1;
+    }
+
+    #buttons_group_cont {
+        display: none;
     }
 
     <?php
@@ -44,8 +54,26 @@ $fet_seek = mysqli_fetch_assoc($seek);
                 <h4 class="text-capitalize"><?php echo $fet_seek['Name'] ?></h4>
                 <p class="text-secondary mb-1 text-capitalize"><?php echo $fet_cat['cat_name'] ?></p>
                 <p class="text-muted font-size-sm text-capitalize"><?php echo $fet_pro['address'] ?></p>
-                <button class="btn btn-primary">Follow</button>
-                <button class="btn btn-outline-primary">Message</button>
+                <p class="badge text-dark mx-0 fs-6"> <span id="display_followers"></span> Follower</p>
+                <?php
+                if (isset($_SESSION['seeker'])) {
+                    if ($_SESSION['auth_user']['User_ID'] == $fet_seek['User_ID']) {
+                ?>
+                        <div id="buttons_group_cont">
+                            <button class="btn btn-primary px-4 rounded-3" data-role="<?php echo $fet_seek['role']; ?>" data-id="<?php echo $fet_seek['User_ID']; ?>" type="button" id="follow">Follow</button>
+                            <button class="btn btn-light px-4 rounded-3" data-role="<?php echo $fet_seek['role']; ?>" data-id="<?php echo $fet_seek['User_ID']; ?>" type="button" id="unfollow">Unfollow</button> <button class="btn btn-outline-primary">Message</button>
+                        </div>
+                    <?php
+                    }
+                } elseif (isset($_SESSION['employer'])) {
+                    ?>
+                    <div>
+                        <button class="btn btn-primary px-4 rounded-3" data-role="<?php echo $fet_seek['role']; ?>" data-id="<?php echo $fet_seek['User_ID']; ?>" type="button" id="follow">Follow</button>
+                        <button class="btn btn-light px-4 rounded-3" data-role="<?php echo $fet_seek['role']; ?>" data-id="<?php echo $fet_seek['User_ID']; ?>" type="button" id="unfollow">Unfollow</button> <button class="btn btn-outline-primary">Message</button>
+                    </div>
+                <?php
+                }
+                ?>
             </div>
             <div class="position-absolute shadow" id="click_img_show">
                 <img src="<?php echo $fet_pro['img'] ?>" alt="Admin" class="" width="160">
@@ -106,5 +134,75 @@ $fet_seek = mysqli_fetch_assoc($seek);
             $("#click_img_show").fadeOut(400);
 
         })
+
+        // follow work 
+        $.ajax({
+            url: "check_follow_or_not.php",
+            type: "POST",
+            data: {
+                cehck_id: $("#follow").data('id'),
+                check_role: $("#follow").data('role'),
+            },
+            success: function(follow) {
+                console.log(follow);
+                if (follow == 1) {
+                    $("#unfollow").fadeIn(500);
+                    $("#follow").fadeOut(1);
+                }
+            }
+        })
+
+        function followers_get() {
+            // alert($("#follow").data('id'))
+            $.ajax({
+                url: "followers.php",
+                type: "POST",
+                data: {
+                    id: $("#follow").data('id'),
+                    role: $("#follow").data('role'),
+                },
+                success: function(followers) {
+                    $("#display_followers").html(followers);
+                }
+            })
+        }
+        followers_get();
+        $("#follow").click(function() {
+            id = $(this).data('id');
+            role = $(this).data('role');
+            $.post(
+                "follow.php", {
+                    count: $("#display_followers").text(),
+                    id: id,
+                    role: role,
+                },
+                function(following) {
+                    setInterval(followers_get, 5000);
+                    if (following == 1) {
+                        $("#unfollow").fadeIn(500);
+                        $("#follow").fadeOut(1);
+                    }
+                }
+            )
+        });
+        $("#unfollow").click(function() {
+            id = $(this).data('id');
+            role = $(this).data('role');
+            $.post(
+                "follow.php", {
+                    count: $("#display_followers").text(),
+                    id: id,
+                    role: "unfollow",
+                    userrole: role,
+                },
+                function(unfollow) {
+                    setInterval(followers_get, 5000);
+                    $("#unfollow").fadeOut(1);
+                    $("#follow").fadeIn(500);
+                }
+            )
+        });
+        setInterval(followers_get, 10000)
+
     });
 </script>
