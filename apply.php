@@ -14,7 +14,7 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT * FROM `jobs` WHERE 
         $msg = $_POST['msg'];
         $file = $_FILES['file']['name'];
         $filetmp = $_FILES['file']['tmp_name'];
-        $folder = './upload/' . rand() . "-"  . $file;
+        $folder = './upload/' . rand() . "-"  . $file; 
         if (move_uploaded_file($_FILES['file']['tmp_name'], $folder)) {
             $sql = mysqli_query($con, "INSERT INTO `applications`(`job_id`, `User_ID`, `Message`, `appResume`, `emp_id`) VALUES('$job_id','$user_id','$msg','$folder','$emp_id')");
             if ($sql) {

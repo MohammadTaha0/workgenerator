@@ -31,6 +31,32 @@ include 'conn.php';
         #closecont div .col-12 {
             display: none;
         }
+
+        .notify_icon {
+            position: fixed;
+            right: 45px;
+            bottom: 105px;
+            z-index: 99;
+            color: var(--primary) !important;
+        }
+
+        .notify_icon::before {
+            content: attr(current-count);
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--primary);
+            z-index: 999999;
+            border-radius: 50%;
+            right: 0%;
+            border: 2px solid white;
+            top: 5%;
+        }
     </style>
 </head>
 
@@ -408,53 +434,7 @@ include 'conn.php';
                                 <a class="btn btn-primary py-3 px-5" href="./job-list.php">Browse More Jobs</a>
                             </div>
                             <div id="tab-3" class="tab-pane fade show p-0">
-                                <?php
-                                if ($jobs = mysqli_query($con, "SELECT * FROM `jobs` WHERE `Job_Role`=0")) {
-                                    if (mysqli_num_rows($jobs)) {
-                                        while ($jobrow = mysqli_fetch_array($jobs)) {
-                                ?>
-                                            <div class="job-item p-4 mb-4">
-                                                <div class="row g-4">
-                                                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                        <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
-                                                        <div class="text-start ps-4">
-                                                            <h5 class="mb-3"><?php echo $jobrow['Title']; ?></h5>
-                                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $jobrow['Location']; ?></span>
-                                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php if ($jobrow['Job_Role'] == 0) {
-                                                                                                                                                echo "Part Time";
-                                                                                                                                            } elseif ($jobrow['Job_Role'] == 1) {
-                                                                                                                                                echo "Full Time";
-                                                                                                                                            } ?></span>
-                                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $jobrow['min_sal'] . ' - ' . $jobrow['max_sal']; ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                        <div class="d-flex mb-3">
-                                                            <?php
-                                                            if (isset($_SESSION['seeker'])) {
-                                                            ?>
-                                                                <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                                <a class="btn btn-primary" href="./job-detail.php?jobid=<?php echo $jobrow['Auto_generated_ID']; ?>">View Details</a>
-                                                            <?php
-                                                            } else {
-                                                            ?>
-                                                                <a class="btn btn-light btn-square me-3" href="./login.php"><i class="far fa-heart text-primary"></i></a>
-                                                                <a class="btn btn-primary" href="./login.php">View Details</a>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                        <small class="text-truncate"><i class="fa-regular fa-calendar text-primary me-2"></i>Publish: <time class="timeago" datetime="<?php echo $jobrow['Date']; ?>"></time></small>
-                                                        <small class="text-truncate mt-2"><i class="fa-regular fa-clock text-primary me-2"></i>
-                                                            <input type="hidden" data-role="jobid" value="<?php echo $jobrow['Auto_generated_ID']; ?>"><span data-role="left" data-value="<?php echo $jobrow['Auto_generated_ID']; ?>" data-id="<?php echo $jobrow['lastdate']; ?>"></span> </small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                <?php
-                                        }
-                                    }
-                                }
-                                ?>
+
                                 <a class="btn btn-primary py-3 px-5" href="job-list.php">Browse More Jobs</a>
                             </div>
                         </div>
@@ -999,14 +979,12 @@ include 'conn.php';
         </div>
         <!-- Testimonial End -->
 
-        <?php
-        include 'footer.php';
-        ?>
+        <input type="hidden" id="your_id" value="<?php echo $_SESSION['auth_user']['User_ID']; ?>">
 
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
+    <?php
+    include 'footer.php';
+    ?>
     <script src="./timeago/jquery.timeago.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function() {
@@ -1019,11 +997,12 @@ include 'conn.php';
     <script>
         $(document).ready(function() {
             function getjobsdata() {
+                id = $("#your_id").val();
                 $.ajax({
                     url: "alljobscode.php",
                     data: {
                         lim: "LIMIT 6",
-                        where: " "
+                        where: "WHERE `emp_id`=`ID`", 
                     },
                     type: "GET",
                     dataType: "html",
@@ -1035,7 +1014,7 @@ include 'conn.php';
                     url: "alljobscode.php",
                     data: {
                         lim: "LIMIT 6",
-                        where: "WHERE `Job_Role`='1'"
+                        where: "WHERE `emp_id`=`ID` AND `Job_Role`='1'"
                     },
                     type: "GET",
                     dataType: "html",
@@ -1047,7 +1026,7 @@ include 'conn.php';
                     url: "alljobscode.php",
                     data: {
                         lim: "LIMIT 6",
-                        where: "WHERE `Job_Role`='0'"
+                        where: "WHERE `emp_id`=`ID` AND `Job_Role`='0'"
                     },
                     type: "GET",
                     dataType: "html",

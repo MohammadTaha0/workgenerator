@@ -115,7 +115,7 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
 
                                             <div class="col-12">
                                                 <button class="btn btn-primary w-100 mt-3" type="submit" name="submit" id="submit">Apply Now</button>
-                                                <input type="hidden" name="job_id" value="<?php echo $jobid; ?>">
+                                                <input type="hidden" id="job_id" name="job_id" value="<?php echo $jobid; ?>">
                                             </div>
                                         </div>
                                     </form>
@@ -134,9 +134,9 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
                                         email = $("#email").val();
                                         phone = $("#phone").val();
                                         file = $("#file").val();
-                                        // multi_option = $("#multi_option").val();
                                         jobid = $("#job_id").val();
                                         msg = $("#msg").val();
+                                        alert(jobid);
                                         if (file == "") {
                                             alert("Resume Is Required");
                                         } else if (msg == "") {
@@ -152,6 +152,14 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
                                                     console.log(data);
                                                     if (data == 1) {
                                                         alert("APPLIED");
+                                                        $.post(
+                                                            "send_apply_noti.php", {
+                                                                jobid: $("#job_id").val(),
+                                                            },
+                                                            function(noti) {
+                                                                console.log(noti);
+                                                            }
+                                                        )
                                                     } else if (data == 0) {
                                                         alert("sorry");
                                                     } else if (data == 4) {
@@ -239,7 +247,7 @@ if (mysqli_num_rows($jobselect = mysqli_query($con, "SELECT *,DATE_FORMAT(Date,'
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        
     </div>
 
     <?php

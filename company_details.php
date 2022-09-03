@@ -47,7 +47,7 @@ $hire_sql = mysqli_query($con, "SELECT * FROM `applications` WHERE `Status`='1'"
                 <div class="col-12 bg-white shadow mb-0 py-3">
                     <div class="row justify-content-center text-center mb-5">
                         <div class="col-12 rounded-circle shadow d-flex justify-content-center align-items-center" style="width: 150px; height: 150px;">
-                            <img src="./img/com-logo-1.jpg" style="object-fit: contain !important;" class="d-block w-100 rounded-circle" alt="">
+                            <img src="<?php echo $fetch['emp_img'] ?>" style="object-fit: contain !important;" class="d-block w-100 rounded-circle" alt="">
                         </div>
                         <div class="col-12 mt-5">
                             <h1 class="text-success mb-3 fw-bolder"><?php echo $fetch['Company_Name'] ?></h1>
@@ -56,7 +56,7 @@ $hire_sql = mysqli_query($con, "SELECT * FROM `applications` WHERE `Status`='1'"
                         </div>
                         <div class="col-12 mt-2">
                             <button class="btn btn-primary px-4 rounded-3" data-role="<?php echo $fetch['role']; ?>" data-id="<?php echo $fetch['ID']; ?>" type="button" id="follow">Follow</button>
-                            <button class="btn btn-light px-4 rounded-3" data-role="<?php echo $fetch['role']; ?>" data-id="<?php echo $fetch['ID']; ?>" type="button" id="unfollow">Unfollow</button>
+                            <button class="btn btn-light px-4 rounded-3" data-role="<?php echo $fetch['role']; ?>" data-id="<?php echo $fetch['ID']; ?>" type="button" id="unfollow">Unfollow</button> 
                             <button class="btn btn-secondary px-4 rounded-3">Messege</button>
                         </div>
                     </div>

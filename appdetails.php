@@ -159,7 +159,6 @@ if (!isset($_SESSION['employer'])) {
                         ids = $(input_update).val();
                         id = $(this).data('id');
                         update_val = $("#updatestatus").val();
-                        // alert();
 
                         if ($("#updatestatus").val() == "1") {
                             $.post(
@@ -249,7 +248,7 @@ if (!isset($_SESSION['employer'])) {
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        
     </div>
 
 

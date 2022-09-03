@@ -5,26 +5,30 @@
         font-size: 15px !important;
     }
 
-    #notify {
-        position: relative;
+    .notify_icon {
+        position: fixed;
+        right: 45px;
+        bottom: 105px;
+        z-index: 99;
+        color: var(--primary) !important;
     }
 
-    #notify::before {
+    .notify_icon::before {
         content: attr(current-count);
-        font-size: 13px;
+        font-size: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
         position: absolute;
-        width: 20px;
-        height: 20px;
+        width: 25px;
+        height: 25px;
         background-color: var(--primary);
         z-index: 999999;
         border-radius: 50%;
-        right: -35%;
+        right: 0%;
         border: 2px solid white;
-        top: 30%;
+        top: 5%;
     }
 </style>
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
@@ -49,8 +53,6 @@
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Post, View & Create</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="appdetails.php" class="dropdown-item">View Application Details</a>
-                                <a href="job-detail.html" class="dropdown-item">Cretate Events</a>
-                                <a href="job-detail.html" class="dropdown-item">Organize Training</a>
                                 <a href="postedjob.php" class="dropdown-item">Post Job</a>
                             </div>
                         </div> <?php
@@ -60,8 +62,6 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="tooltip" data-bs-placement="top" title="You are not allowed to post any job until we approve you">Post, View & Create</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="appdetails.php" class="dropdown-item disabled">View Application Details</a>
-                                <a href="job-detail.html" class="dropdown-item disabled">Cretate Events</a>
-                                <a href="job-detail.html" class="dropdown-item disabled">Organize Training</a>
                                 <a href="postedjob.php" class="dropdown-item disabled">Post Job</a>
                             </div>
                             <script>
@@ -90,17 +90,6 @@
                 </div>
             <?php
                     }
-                    if (isset($_SESSION['seeker'])) {
-            ?>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Training & Events</a>
-                    <div class="dropdown-menu rounded-0 m-0">
-                        <a href="job-list.html" class="dropdown-item">Training Programs</a>
-                        <a href="job-list.html" class="dropdown-item">Events Nearby</a>
-                    </div>
-                </div>
-            <?php
-                    }
             ?>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Our services</a>
@@ -116,17 +105,6 @@
             if (isset($_SESSION['seeker'])) {
             ?>
                 <a href="profile.php" class="nav-item nav-link">Profile</a>
-                <?php
-                $user_id = $_SESSION['auth_user']['User_ID'];
-                if (mysqli_num_rows($sql = mysqli_query($con, "SELECT `id` FROM `applications` WHERE `Status`='1' AND `User_ID`='$user_id'")) > 0) {
-                ?>
-                    <a href="profile.html" id="notify" class="nav-item nav-link" current-count="<?php echo mysqli_num_rows($sql); ?>"><i class="fa-regular fa-bell fs-4 text-primary"></i></a>
-                <?php
-                }
-
-                ?>
-
-
             <?php
             }
             ?>
@@ -150,3 +128,32 @@
     </div>
 </nav>
 <!-- Navbar End -->
+
+<?php
+if (isset($_SESSION['login'])) {
+?>
+
+    <a href="notification.php" id="not_icon" class="btn btn-lg-square shadow rounded-circle text-primary notify_icon" current-count="0">
+        <i class="fa-regular fa-bell text-primary fs-2"></i>
+    </a>
+<?php
+}
+?>
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa-solid fa-arrow-up"></i></a>
+
+<script>
+    $(document).ready(function() {
+        function count_noti() {
+            $.get(
+                "count_notification.php",
+                function(count) {
+                    $("#not_icon").attr("current-count", count);
+                }
+            )
+        }
+        count_noti();
+        setInterval(count_noti, 60000)
+    });
+</script>

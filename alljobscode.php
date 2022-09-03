@@ -3,13 +3,13 @@ session_start();
 include 'conn.php';
 $lim = $_GET['lim'];
 $where = $_GET['where'];
-if ($jobs = mysqli_query($con, "SELECT * FROM `jobs` $where $lim")) {
+if ($jobs = mysqli_query($con, "SELECT * FROM `jobs` A INNER JOIN `employer` B $where $lim")) {
     if (mysqli_num_rows($jobs)) {
         while ($jobrow = mysqli_fetch_array($jobs)) {
             echo '<div class="job-item p-4 mb-4" id="' . $jobrow['Auto_generated_ID'] . '">
 <div class="row g-4">
     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-        <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
+        <img class="flex-shrink-0 img-fluid border rounded" src="'.$jobrow['emp_img'].'" alt="" style="width: 80px; height: 80px;">
         <div class="text-start ps-4">
             <h5 class="mb-3">' . $jobrow['Title'] . '</h5>
             <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>' . $jobrow['Location'] . '</span>

@@ -49,7 +49,7 @@
         loop: true,
         nav : true,
         navText : [
-            '<i class="fa-solid fa-arrow-left"></i>',
+            '<i class="fas fa-arrow-left"></i>',
             '<i class="fa-solid fa-arrow-right"></i>'
         ]
     });

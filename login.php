@@ -18,6 +18,19 @@ if (isset($_SESSION['login'])) {
     <?php
     include 'link.php';
     ?>
+    <style>
+        .error {
+            outline: 2px solid #FF0000 !important;
+        }
+
+        .success {
+            outline: 2px solid #00CC00 !important;
+        }
+
+        .form-text {
+            z-index: 999999;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,14 +55,16 @@ if (isset($_SESSION['login'])) {
                         <form id="form">
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <div class="form-floating">
+                                    <div class="form-floating position-relative">
                                         <input type="email" class="form-control" id="email" placeholder="Your Email" name="email">
+                                        <div id="emailHelp" class="form-text position-absolute pt-3 top-0 pe-2 end-0 start-50 text-danger text-end"></div>
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-floating">
+                                    <div class="form-floating position-relative">
                                         <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                                        <div id="passHelp" class="form-text position-absolute pt-3 top-0 pe-2 end-0 start-50 text-danger text-end"></div>
                                         <label for="password">Password</label>
                                     </div>
                                 </div>
@@ -65,32 +80,76 @@ if (isset($_SESSION['login'])) {
 
         <script>
             $(document).ready(function() {
+
                 $("#submit").click(function() {
                     email = $("#email").val();
                     password = $("#password").val();
-                    if(email == "" || password == "")
-                    {
-                        alert("All Fields Are Required");
-                    }
-                    else{
+                    if (email == "" || password == "") {
+                        $(".form-text").html('<i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('.form-floating').children('input').addClass("error");
+                    } else if (email.indexOf(".") != email.length - 4) {
+                        $("#emailHelp").html('Invalid Email <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#email').addClass("error");
+                    } else if (email.indexOf("@") != email.length - 10) {
+                        $("#emailHelp").html('Invalid Email <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#email').addClass("error");
+                    } else if (email == "") {
+                        $("#emailHelp").html('<i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#email').addClass("error");
+                    } else if (password == "") {
+                        $("#passHelp").html(' <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#password').addClass("error");
+                    } else if (password.length < 8) {
+                        $("#passHelp").html('min 8 characters <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#password').addClass("error");
+                    } else if (password.length > 18) {
+                        $("#passHelp").html('max 18 characters <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#password').addClass("error");
+                    } else {
+                        $("input").removeClass("remove");
+                        $(".form-text").html('<i class="fa-solid fa-check fs-4 text-success"></i>')
                         $.post(
                             "logincode.php",
                             $("#form").serialize(),
-                            function(login) { 
-                                if(login == 1)
-                                {
+                            function(login) {
+                                if (login == 1) {
                                     alert("Welcome Employer");
-                                    window.location.href="index.php";
-                                }else if(login == 2)
-                                {
+                                    window.location.href = "index.php";
+                                } else if (login == 2) {
                                     alert("Welcome Job Seeker");
-                                    window.location.href="index.php";
-                                }else if(login == 3)
-                                {
+                                    window.location.href = "index.php";
+                                } else if (login == 3) {
                                     alert("Invalid Email Or Pasword");
                                 }
-                             }
+                            }
                         )
+                    }
+                })
+                $("#email").keyup(function() {
+                    val = $(this).val();
+                    ele = $(this);
+                    if (val.indexOf(".") != val.length - 4) {
+                        $("#emailHelp").html('Invalid Email <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#email').addClass("error");
+                    } else if (val.indexOf("@") != val.length - 10) {
+                        $("#emailHelp").html('Invalid Email <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#email').addClass("error");
+                    } else {
+                        $("#emailHelp").html('<i class="fa-solid fa-check fs-4 text-success"></i>');
+                        $("#email").removeClass("error");
+                    }
+                });
+                $("#password").keyup(function() {
+                    pass = $(this).val();
+                    if (pass.length < 8) {
+                        $("#passHelp").html('min 8 characters <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#password').addClass("error");
+                    } else if (pass.length > 18) {
+                        $("#passHelp").html('max 18 characters <i class="fa-solid fa-times-circle fs-5"></i>')
+                        $('#password').addClass("error");
+                    } else {
+                        $("#passHelp").html('<i class="fa-solid fa-check fs-4 text-success"></i>')
+                        $('#password').removeClass("error");
                     }
                 })
             });
@@ -103,7 +162,7 @@ if (isset($_SESSION['login'])) {
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
     </div>
 
     <?php

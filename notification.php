@@ -15,8 +15,13 @@ include 'conn.php';
     include 'link.php';
     ?>
     <style>
-        .bg-grey{
-            background-color: lightgrey;
+        .bg-grey {
+            background-color: rgba(240, 240, 240);
+        }
+
+        .col-12 {
+            border-bottom: 2px solid lightgrey;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -53,7 +58,7 @@ include 'conn.php';
 
 </body>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function() { 
         $.ajax({
             url: "notify.php",
             type: "GET",

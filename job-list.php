@@ -96,7 +96,7 @@ session_start();
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        
     </div>
 
     <?php
@@ -109,7 +109,7 @@ session_start();
                     url: "alljobscode.php",
                     data: {
                         lim: " ",
-                        where: " "
+                        where: "WHERE `emp_id`=`ID`"
                     },
                     type: "GET",
                     dataType: "html",
@@ -121,7 +121,7 @@ session_start();
                     url: "alljobscode.php",
                     data: {
                         lim: " ",
-                        where: "WHERE `Job_Role`='1'"
+                        where: "WHERE `emp_id`=`ID` AND `Job_Role`='1'"
                     },
                     type: "GET",
                     dataType: "html",
@@ -133,7 +133,7 @@ session_start();
                     url: "alljobscode.php",
                     data: {
                         lim: " ",
-                        where: "WHERE `Job_Role`='0'"
+                        where: "WHERE `emp_id`=`ID` AND `Job_Role`='0'"
                     },
                     type: "GET",
                     dataType: "html",
