@@ -89,8 +89,16 @@ $row1 = mysqli_fetch_array($sql1);
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control" id="cat" placeholder="category" name="cat">
-                                                        <label for="cat">Category</label>
+                                                        <select name="cat" id="cat" class="form-select">
+                                                            <?php
+                                                            $sqlct = mysqli_query($con, "SELECT * FROM `category`");
+                                                            while ($fet = mysqli_fetch_array($sqlct)) {
+                                                            ?>
+                                                                <option value="<?php echo $fet['cat_name'] ?>"><?php echo $fet['cat_name'] ?></option>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -131,11 +139,10 @@ $row1 = mysqli_fetch_array($sql1);
                                                     <div class="form-floating">
                                                         <select id="multi_option" class="w-100" multiple name="native-select" placeholder="Skills" data-silent-initial-value-set="false">
                                                             <?php
-
-                                                            $skills = ['HTML', 'CSS', 'JavaScript', 'Jquery', 'Wordpress', 'PHP', 'ASP.Net', 'Bootsrap5', 'React', 'Angular', 'Laravel', 'Django', 'Flutter', 'Dart Programming'];
-                                                            for ($i = 0; $i < count($skills); $i++) {
+                                                            $sql = mysqli_query($con, "SELECT * FROM `skills`");
+                                                            while ($ftc = mysqli_fetch_array($sql)) {
                                                             ?>
-                                                                <option data-role="<?php echo $skills[$i]; ?>" class="h-100" value="<?php echo $skills[$i]; ?>"><?php echo $skills[$i]; ?></option>
+                                                                <option value="<?php echo $ftc['skills']; ?>"><?php echo $ftc['skills']; ?></option>
                                                             <?php
                                                             }
                                                             ?>
@@ -197,8 +204,16 @@ $row1 = mysqli_fetch_array($sql1);
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control" id="cat" placeholder="category" name="cat">
-                                                        <label for="cat">Category</label>
+                                                        <select name="cat" id="cat" class="form-select">
+                                                            <?php
+                                                            $sqlct = mysqli_query($con, "SELECT * FROM `category`");
+                                                            while ($fet = mysqli_fetch_array($sqlct)) {
+                                                            ?>
+                                                                <option value="<?php echo $fet['cat_name'] ?>"><?php echo $fet['cat_name'] ?></option>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -238,11 +253,10 @@ $row1 = mysqli_fetch_array($sql1);
                                                     <div class="form-floating">
                                                         <select id="multi_option" class="w-100" multiple name="native-select" placeholder="Skills" data-silent-initial-value-set="false">
                                                             <?php
-
-                                                            $skills = ['HTML', 'CSS', 'Java Script', 'Jquery', 'Wordpress', 'PHP', 'ASP.Net', 'Bootsrap 5', 'React', 'Angular', 'Laravel', 'Django', 'Flutter', 'Dart Programming'];
-                                                            for ($i = 0; $i < count($skills); $i++) {
+                                                            $sql = mysqli_query($con, "SELECT * FROM `skills`");
+                                                            while ($ftc = mysqli_fetch_array($sql)) {
                                                             ?>
-                                                                <option class="h-100" value="<?php echo $skills[$i]; ?>"><?php echo $skills[$i]; ?></option>
+                                                                <option value="<?php echo $ftc['skills']; ?>"><?php echo $ftc['skills']; ?></option>
                                                             <?php
                                                             }
                                                             ?>
@@ -340,7 +354,6 @@ $row1 = mysqli_fetch_array($sql1);
                                             maxsal = $("#maxsal").val();
                                             skills = $("#multi_option").val();
                                             skills = skills.toString();
-                                            console.log(skills);
                                             exper = $("#exper").val();
                                             role = $("#role").val();
                                             lastdate = $("#lastdate").val();
@@ -482,33 +495,6 @@ $row1 = mysqli_fetch_array($sql1);
                         </div>
                     </div>
                 </div>
-                <?php
-
-                if (isset($_POST['update'])) {
-                    $hiddenid = $_POST['hiddenid'];
-                    $category = $_POST['cat'];
-                    $skill = $_POST['skills'];
-                    $minsal = $_POST['minsal'];
-                    $title = $_POST['title'];
-                    $maxsal = $_POST['maxsal'];
-                    $job_role = $_POST['role'];
-                    $descrip = $_POST['descrip'];
-                    $exper = $_POST['exper'];
-                    $min_sal = $_POST['minsal'];
-                    $max_sal = $_POST['maxsal'];
-                    $location = $_POST['location'];
-                    $lastdate = $_POST['lastdate'];
-                    $run = mysqli_query($con, "UPDATE `jobs` SET `Title`='$title',`Category`='$category',`Location`='$location',`min_sal`='$min_sal',`max_sal`='$max_sal',`Skills`='$skill',`Experience`='$exper',`Job_Role`='$job_role',`Description`='$descrip',`lastdate`='$lastdate' WHERE `Auto_generated_ID`='$hiddenid'");
-                    // print_r($run);
-                    if ($run) {
-                ?>
-                        <script>
-                            window.location.href = "postedjob.php";
-                        </script>
-                <?php
-                    }
-                }
-                ?>
             </div>
         </div>
 
@@ -525,16 +511,8 @@ $row1 = mysqli_fetch_array($sql1);
         include 'footer.php';
         ?>
 
-        <?php
-        $delid = $_GET['delid'];
-        $sql2 = mysqli_query($con, "DELETE FROM `jobs` WHERE `Auto_generated_ID`='$delid'");
-        if ($sql2) {
-            header("Location: postedjob.php");
-        }
-        ?>
 
-        <!-- Back to Top -->
-        
+
     </div>
 
     <?php

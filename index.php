@@ -474,8 +474,16 @@ include 'conn.php';
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control" id="cat" placeholder="category" name="cat">
-                                                                    <label for="cat">Category</label>
+                                                                    <select name="cat" id="cat" class="form-select">
+                                                                        <?php
+                                                                        $sqlct = mysqli_query($con, "SELECT * FROM `category`");
+                                                                        while ($fet = mysqli_fetch_array($sqlct)) {
+                                                                        ?>
+                                                                            <option value="<?php echo $fet['cat_name'] ?>"><?php echo $fet['cat_name'] ?></option>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-6">
@@ -516,11 +524,10 @@ include 'conn.php';
                                                                 <div class="form-floating">
                                                                     <select id="multi_option" class="w-100" multiple name="native-select" placeholder="Skills" data-silent-initial-value-set="false">
                                                                         <?php
-
-                                                                        $skills = ['HTML', 'CSS', 'JavaScript', 'Jquery', 'Wordpress', 'PHP', 'ASP.Net', 'Bootsrap5', 'React', 'Angular', 'Laravel', 'Django', 'Flutter', 'Dart Programming'];
-                                                                        for ($i = 0; $i < count($skills); $i++) {
+                                                                        $sql = mysqli_query($con, "SELECT * FROM `skills`");
+                                                                        while ($ftc = mysqli_fetch_array($sql)) {
                                                                         ?>
-                                                                            <option data-role="<?php echo $skills[$i]; ?>" class="h-100" value="<?php echo $skills[$i]; ?>"><?php echo $skills[$i]; ?></option>
+                                                                            <option value="<?php echo $ftc['skills']; ?>"><?php echo $ftc['skills']; ?></option>
                                                                         <?php
                                                                         }
                                                                         ?>
@@ -582,8 +589,16 @@ include 'conn.php';
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control" id="cat" placeholder="category" name="cat">
-                                                                    <label for="cat">Category</label>
+                                                                    <select name="cat" id="cat" class="form-select">
+                                                                        <?php
+                                                                        $sqlct = mysqli_query($con, "SELECT * FROM `category`");
+                                                                        while ($fet = mysqli_fetch_array($sqlct)) {
+                                                                        ?>
+                                                                            <option value="<?php echo $fet['cat_name'] ?>"><?php echo $fet['cat_name'] ?></option>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-6">
@@ -623,11 +638,10 @@ include 'conn.php';
                                                                 <div class="form-floating">
                                                                     <select id="multi_option" class="w-100" multiple name="native-select" placeholder="Skills" data-silent-initial-value-set="false">
                                                                         <?php
-
-                                                                        $skills = ['HTML', 'CSS', 'Java Script', 'Jquery', 'Wordpress', 'PHP', 'ASP.Net', 'Bootsrap 5', 'React', 'Angular', 'Laravel', 'Django', 'Flutter', 'Dart Programming'];
-                                                                        for ($i = 0; $i < count($skills); $i++) {
+                                                                        $sql = mysqli_query($con, "SELECT * FROM `skills`");
+                                                                        while ($ftc = mysqli_fetch_array($sql)) {
                                                                         ?>
-                                                                            <option class="h-100" value="<?php echo $skills[$i]; ?>"><?php echo $skills[$i]; ?></option>
+                                                                            <option value="<?php echo $ftc['skills']; ?>"><?php echo $ftc['skills']; ?></option>
                                                                         <?php
                                                                         }
                                                                         ?>
@@ -724,49 +738,55 @@ include 'conn.php';
                                                         minsal = $("#misal").val();
                                                         maxsal = $("#maxsal").val();
                                                         skills = $("#multi_option").val();
-                                                        skills = skills.toString();
                                                         console.log(skills);
                                                         exper = $("#exper").val();
                                                         role = $("#role").val();
                                                         lastdate = $("#lastdate").val();
                                                         Location = $("#Location").val();
                                                         descrip = $("#descrip").val();
-                                                        $.ajax({
-                                                            url: "updatejob_code.php",
-                                                            type: "POST",
-                                                            data: {
-                                                                updid: updid,
-                                                                title: title,
-                                                                cat: cat,
-                                                                minsal: minsal,
-                                                                maxsal: maxsal,
-                                                                skills: skills,
-                                                                exper: exper,
-                                                                role: role,
-                                                                lastdate: lastdate,
-                                                                Location: Location,
-                                                                descrip: descrip
-                                                            },
-                                                            success: function(upd) {
-                                                                if (upd == 1) {
-                                                                    $("#display").load("postjob_display.php", function() {
-                                                                        $.ajax({
-                                                                            url: "postjob_display.php",
-                                                                            type: "GET",
-                                                                            dataType: "html",
-                                                                            success: function(fata) {
-                                                                                $("#display").html(fata);
-                                                                            }
-                                                                        })
-                                                                    });
-                                                                    $("#frommm").fadeOut(400);
-                                                                    alert("Update Job Succesfully")
-                                                                } else if (upd == 0) {
-                                                                    alert("Something Went Wrong")
-                                                                }
-                                                            }
+                                                        if (skills == "") {
+                                                            alert("Plaese Select Required Skills");
+                                                        } else {
 
-                                                        });
+
+                                                            skills = skills.toString();
+                                                            $.ajax({
+                                                                url: "updatejob_code.php",
+                                                                type: "POST",
+                                                                data: {
+                                                                    updid: updid,
+                                                                    title: title,
+                                                                    cat: cat,
+                                                                    minsal: minsal,
+                                                                    maxsal: maxsal,
+                                                                    skills: skills,
+                                                                    exper: exper,
+                                                                    role: role,
+                                                                    lastdate: lastdate,
+                                                                    Location: Location,
+                                                                    descrip: descrip
+                                                                },
+                                                                success: function(upd) {
+                                                                    if (upd == 1) {
+                                                                        $("#display").load("postjob_display.php", function() {
+                                                                            $.ajax({
+                                                                                url: "postjob_display.php",
+                                                                                type: "GET",
+                                                                                dataType: "html",
+                                                                                success: function(fata) {
+                                                                                    $("#display").html(fata);
+                                                                                }
+                                                                            })
+                                                                        });
+                                                                        $("#frommm").fadeOut(400);
+                                                                        alert("Update Job Succesfully")
+                                                                    } else if (upd == 0) {
+                                                                        alert("Something Went Wrong")
+                                                                    }
+                                                                }
+
+                                                            });
+                                                        }
                                                     })
 
 
@@ -1002,7 +1022,7 @@ include 'conn.php';
                     url: "alljobscode.php",
                     data: {
                         lim: "LIMIT 6",
-                        where: "WHERE `emp_id`=`ID`", 
+                        where: "WHERE `emp_id`=`ID`",
                     },
                     type: "GET",
                     dataType: "html",

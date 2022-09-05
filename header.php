@@ -106,6 +106,10 @@
             ?>
                 <a href="profile.php" class="nav-item nav-link">Profile</a>
             <?php
+            } else if (isset($_SESSION['employer'])) {
+            ?>
+                <a href="profile.php" class="nav-item nav-link">Profile</a>
+            <?php
             }
             ?>
         </div>

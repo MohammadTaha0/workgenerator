@@ -2,12 +2,13 @@
 session_start();
 include 'conn.php';
 if (isset($_SESSION['employer'])) {
-    $user_id = $_GET['user_id'];
+    $user_id = $_SESSION['auth_user']['ID'];
     $_SESSION['$session_user_id'] = $user_id;
+    $seek = mysqli_query($con, "SELECT * FROM `employer` WHERE `ID`='$user_id'");
 } else {
     $user_id = $_SESSION['auth_user']['User_ID'];
+    $seek = mysqli_query($con, "SELECT * FROM `job_seeker` WHERE `User_ID`='$user_id'");
 }
-$seek = mysqli_query($con, "SELECT * FROM `job_seeker` WHERE `User_ID`='$user_id'");
 $fet_seek = mysqli_fetch_assoc($seek);
 ?>
 <!DOCTYPE html>
@@ -67,248 +68,284 @@ $fet_seek = mysqli_fetch_assoc($seek);
         </div>
         <!-- Spinner End -->
 
-        <div class="container my-5">
-            <div class="main-body">
-                <div class="row gutters-sm position-relative justify-content-center" id="load">
-                    <?php
-                    if (isset($_SESSION['employer'])) {
-                        $user_id = $_GET['user_id'];
-                    } else {
-                        $user_id = $_SESSION['auth_user']['User_ID'];
-                    }
-                    if (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `seeker_profile` WHERE `user_id`='$user_id'")) == 0) {
-                    ?>
-                        <div class="col-lg-8" id="hide">
-                            <div class="card">
-                                <h4 class="text-center mt-5">Build Your Profile First !</h4>
-                                <form id="build_form">
-                                    <div class="card-body">
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Profile Picture</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="file" name="profile" id="profile" class="form-control d-none">
-                                                <span class="pro_cont">
-                                                    <label for="profile">
-                                                        <i class="fa-regular fa-camera text-center fa-3x"></i>
-                                                    </label>
-                                                    <img id="pro_img" class="d-none" src="" alt="">
-                                                </span>
+        <?php
+        if (isset($_SESSION['seeker'])) {
+        ?>
+            <div class="container my-5">
+                <div class="main-body">
+                    <div class="row gutters-sm position-relative justify-content-center" id="load">
+                        <?php
+                        if (isset($_SESSION['employer'])) {
+                            $user_id = $_GET['user_id'];
+                        } else {
+                            $user_id = $_SESSION['auth_user']['User_ID'];
+                        }
+                        if (mysqli_num_rows(mysqli_query($con, "SELECT * FROM `seeker_profile` WHERE `user_id`='$user_id'")) == 0) {
+                        ?>
+                            <div class="col-lg-8" id="hide">
+                                <div class="card">
+                                    <h4 class="text-center mt-5">Build Your Profile First !</h4>
+                                    <form id="build_form">
+                                        <div class="card-body">
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Profile Picture</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="file" name="profile" id="profile" class="form-control d-none">
+                                                    <span class="pro_cont">
+                                                        <label for="profile">
+                                                            <i class="fa-regular fa-camera text-center fa-3x"></i>
+                                                        </label>
+                                                        <img id="pro_img" class="d-none" src="" alt="">
+                                                    </span>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Designation</h6>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Designation</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" name="desig" id="desig" class="form-control" placeholder="Full Stack Developer">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" name="desig" id="desig" class="form-control" placeholder="Full Stack Developer">
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Expertise</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" class="form-control" id="expertise" name="expertise" placeholder="PHP">
+                                                    <div id="emailHelp" class="form-text">Only 1 Required.</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Expertise</h6>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Address</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" id="address" name="address" class="form-control" placeholder="Bay Area, San Francisco, CA">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" class="form-control" id="expertise" name="expertise" placeholder="PHP">
-                                                <div id="emailHelp" class="form-text">Only 1 Required.</div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Previouse Company Name</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" id="prv_comp" name="prv_comp" class="form-control" placeholder="Twitter">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Address</h6>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Current Company Name</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" id="curr_comp" name="curr_comp" class="form-control" placeholder="Google">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" id="address" name="address" class="form-control" placeholder="Bay Area, San Francisco, CA">
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Mobile</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" id="mob" name="mob" class="form-control" placeholder="+92 342 959 411">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Previouse Company Name</h6>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Category</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <select name="category" class="form-select" id="category">
+                                                        <?php
+                                                        $crt = mysqli_query($con, "SELECT * FROM `category`");
+                                                        while ($catfet = mysqli_fetch_array($crt)) {
+                                                        ?>
+                                                            <option value="<?php echo $catfet['cat_id'] ?>"><?php echo $catfet['cat_name'] ?></option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" id="prv_comp" name="prv_comp" class="form-control" placeholder="Twitter">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Current Company Name</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" id="curr_comp" name="curr_comp" class="form-control" placeholder="Google">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Mobile</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" id="mob" name="mob" class="form-control" placeholder="+92 342 959 411">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Category</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <select name="category" class="form-select" id="category">
-                                                    <?php
-                                                    $crt = mysqli_query($con, "SELECT * FROM `category`");
-                                                    while ($catfet = mysqli_fetch_array($crt)) {
-                                                    ?>
-                                                        <option value="<?php echo $catfet['cat_id'] ?>"><?php echo $catfet['cat_name'] ?></option>
-                                                    <?php
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Skills</h6>
+                                                </div>
+                                                <style>
+                                                    *,
+                                                    *:after,
+                                                    *:before {
+                                                        -webkit-box-sizing: border-box;
+                                                        -moz-box-sizing: border-box;
+                                                        -ms-box-sizing: border-box;
+                                                        box-sizing: border-box;
                                                     }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Skills</h6>
-                                            </div>
-                                            <style>
-                                                *,
-                                                *:after,
-                                                *:before {
-                                                    -webkit-box-sizing: border-box;
-                                                    -moz-box-sizing: border-box;
-                                                    -ms-box-sizing: border-box;
-                                                    box-sizing: border-box;
-                                                }
 
-                                                body {
-                                                    font-family: arial;
-                                                    font-size: 16px;
-                                                    margin: 0;
-                                                    background: #0f4dff;
-                                                    background: #003ce9;
-                                                    background: #0276ad;
+                                                    body {
+                                                        font-family: arial;
+                                                        font-size: 16px;
+                                                        margin: 0;
+                                                        background: #0f4dff;
+                                                        background: #003ce9;
+                                                        background: #0276ad;
 
-                                                    color: #fff;
-                                                    display: flex;
-                                                    align-items: center;
-                                                    justify-content: center;
-                                                    min-height: 100vh;
-                                                }
-
-                                                #multi_option {
-                                                    max-width: 100%;
-                                                    /* width: 350px; */
-                                                }
-
-
-                                                .vscomp-toggle-button {
-                                                    padding: 10px 30px 10px 10px;
-                                                    border-radius: 5px;
-                                                }
-                                            </style>
-                                            <div class="col-12 col-sm-9 text-secondary">
-                                                <select id="multi_option" class="col-12" multiple name="native-select" placeholder="Native Select" data-silent-initial-value-set="false">
-                                                    <?php
-                                                    $crt = mysqli_query($con, "SELECT * FROM `skills`");
-                                                    while ($catfet = mysqli_fetch_array($crt)) {
-                                                    ?>
-                                                        <option value="<?php echo $catfet['skills'] ?>"><?php echo $catfet['skills'] ?></option>
-                                                    <?php
+                                                        color: #fff;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                        min-height: 100vh;
                                                     }
-                                                    ?>
-                                                </select>
+
+                                                    #multi_option {
+                                                        max-width: 100%;
+                                                        /* width: 350px; */
+                                                    }
+
+
+                                                    .vscomp-toggle-button {
+                                                        padding: 10px 30px 10px 10px;
+                                                        border-radius: 5px;
+                                                    }
+                                                </style>
+                                                <div class="col-12 col-sm-9 text-secondary">
+                                                    <select id="multi_option" class="col-12" multiple name="native-select" placeholder="Native Select" data-silent-initial-value-set="false">
+                                                        <?php
+                                                        $crt = mysqli_query($con, "SELECT * FROM `skills`");
+                                                        while ($catfet = mysqli_fetch_array($crt)) {
+                                                        ?>
+                                                            <option value="<?php echo $catfet['skills'] ?>"><?php echo $catfet['skills'] ?></option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Experience</h6>
-                                            </div>
-                                            <div class="col-12 col-sm-9 text-secondary">
-                                                <div class="row align-items-center justify-content-center">
-                                                    <div class="col-9 me-0">
-                                                        <input type="text" id="exper" name="exper" placeholder="Experince" class="form-control w-100">
-                                                    </div>
-                                                    <div class="col-3 ms-0">
-                                                        <select name="year" id="year" class="form-select w-100">
-                                                            <option value="Year">Year</option>
-                                                            <option value="Month">Month</option>
-                                                        </select>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Experience</h6>
+                                                </div>
+                                                <div class="col-12 col-sm-9 text-secondary">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-9 me-0">
+                                                            <input type="text" id="exper" name="exper" placeholder="Experince" class="form-control w-100">
+                                                        </div>
+                                                        <div class="col-3 ms-0">
+                                                            <select name="year" id="year" class="form-select w-100">
+                                                                <option value="Year">Year</option>
+                                                                <option value="Month">Month</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Git Hub</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="git" name="git" type="text" class="form-control" placeholder="https://github.com">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Linkedin</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="linked" name="linked" type="text" class="form-control" placeholder="https://www.linkedin.com">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Twitter</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="twitter" name="twitter" type="text" class="form-control" placeholder="https://twitter.com">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Facebook</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="facebook" name="facebook" type="text" class="form-control" placeholder="https://www.facebook.com">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Fiverr</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="fiverr" name="fiverr" type="text" class="form-control" placeholder="https://www.fiverr.com">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">UpWork</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="upwork" name="upwork" type="text" class="form-control" placeholder="https://www.upwork.com">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center">
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="submit" class="btn btn-primary px-4" value="Build" id="build" name="build">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Git Hub</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input id="git" name="git" type="text" class="form-control" placeholder="https://github.com">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Linkedin</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input id="linked" name="linked" type="text" class="form-control" placeholder="https://www.linkedin.com">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Twitter</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input id="twitter" name="twitter" type="text" class="form-control" placeholder="https://twitter.com">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Facebook</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input id="facebook" name="facebook" type="text" class="form-control" placeholder="https://www.facebook.com">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Fiverr</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input id="fiverr" name="fiverr" type="text" class="form-control" placeholder="https://www.fiverr.com">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">UpWork</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input id="upwork" name="upwork" type="text" class="form-control" placeholder="https://www.upwork.com">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center">
-                                            <div class="col-sm-3"></div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="submit" class="btn btn-primary px-4" value="Build" id="build" name="build">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                    <?php
-                    } else {
-                    ?>
-                        <div class="col-md-4 mb-3 col-4" id="sidebar">
+                        <?php
+                        } else {
+                        ?>
+                            <div class="col-md-4 mb-3 col-4" id="sidebar">
 
-                        </div>
-                        <div class="col-md-8" id="rightbar">
+                            </div>
+                            <div class="col-md-8" id="rightbar">
 
-                        </div>
+                            </div>
+                    </div>
+                <?php
+                        }
+                ?>
                 </div>
-            <?php
-                    }
-            ?>
             </div>
-        </div>
+        <?php
+        } else if (isset($_SESSION['employer'])) {
+            
+        ?>
+            <style>
+                #unfollow,
+                #follow,
+                #msg {
+                    background-color: pink;
+                    color: darkred;
+                    display: none;
+                }
+            </style>
+            
+            <div class="container-fluid" id="ress">
+
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $.ajax({
+                        type: "GET",
+                        url : "employer_profile.php",
+                        dataType: "html",
+                        success: function(data) {
+                            $("#ress").html(data);
+                        }
+                    })
+                    
+                });
+            </script>
+        <?php
+        }
+        ?>
 
     </div>
 
@@ -397,7 +434,6 @@ $fet_seek = mysqli_fetch_assoc($seek);
                 facebook = $("#facebook").val();
                 fiver = $("#fiverr").val();
                 upwork = $("#upwork").val();
-                console.log(pro_img, desig, expertise, address, prv_comp, curr_comp, mob, category, skills, exper, git, linked, twiiter, facebook, fiver, upwork);
                 $.ajax({
                     url: "profilecode.php",
                     type: "POST",
