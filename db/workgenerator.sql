@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2022 at 05:46 PM
+-- Generation Time: Sep 17, 2022 at 09:43 AM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `workgenerator`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) DEFAULT NULL,
+  `user` varchar(111) NOT NULL,
+  `pass` varchar(111) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `user`, `pass`) VALUES
+(NULL, 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -105,8 +124,8 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`ID`, `EIN`, `emp_img`, `Name`, `Email`, `Contact`, `Username`, `Password`, `Company_Name`, `Address`, `Number_of_Employees`, `Type_of_Organization`, `Status`, `role`) VALUES
-(10, 949494, '', 'Employer1', 'employer1@gmail.com', '03432959411', 'emp1', 'emp1emp1', 'Venture Dive', 'Shahr-e-Faisal, Karchi, Pakistan ', 1300, 'Software Organization', 'inactive', 0),
-(11, 424242, '', 'Emp2', 'Emp2@gmail.com', '456554213', 'emp2', 'emp2emp2', 'SoftTraders', 'Shahr-e-Faisal, Karchi, Pakistan ', 5, 'Project Organization', 'active', 0),
+(10, 949494, 'img/employer/1799173984com-logo-3.jpg', 'Employer1', 'employer1@gmail.com', '03432959411', 'emp1', 'emp1emp1', 'Venture Dive', 'Shahr-e-Faisal, Karchi, Pakistan ', 1300, 'Software Organization', 'inactive', 0),
+(11, 424242, 'img/employer/1678405872com-logo-2.jpg', 'Emp2', 'Emp2@gmail.com', '456554213', 'emp2', 'emp2emp2', 'SoftTraders', 'Shahr-e-Faisal, Karchi, Pakistan ', 5, 'Project Organization', 'active', 0),
 (12, 45444443, '', '', '', '', '', '', '', '', 0, '', 'inactive', 0),
 (15, 2147483647, '', 'Taha', 'Tha@gmail.com', '897677665', 'emp55', 'emp55', 'jkhjkhjh', 'ghjghjg', 0, 'fgdfgdgf', 'inactive', 0),
 (46, 66666, '', 'nwnme', 'newemail', '7897897', 'nuer', 'npass', 'ncompany', 'nddress', 0, 'norg', 'inactive', 0),
