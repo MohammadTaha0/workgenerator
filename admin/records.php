@@ -1,6 +1,9 @@
 <?php
 session_start();
 include '../conn.php';
+if (!isset($_SESSION['admin'])) {
+    header("Location: login.php");
+}
 if ($sql = mysqli_query($con, "SELECT * FROM `employer`")) {
     while ($fet = mysqli_fetch_array($sql)) {
 ?>

@@ -7,6 +7,7 @@ if (isset($_POST['user'])) {
     $pass = $_POST['pass'];
     if (mysqli_num_rows($sql = mysqli_query($con, "SELECT * FROM `admin` WHERE `user`='$user' AND `pass`='$pass'")) > 0) {
         echo "Welcome Admin";
+        $_SESSION['admin'] = "admin";
     } else {
         echo "Invalid UserName Or Password";
     }

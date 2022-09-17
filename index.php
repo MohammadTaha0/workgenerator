@@ -196,7 +196,7 @@ include 'conn.php';
                                     <select class="form-select border-0" id="cat_search" name="cat_search">
                                         <option selected>Category</option>
                                         <?php
-                                        $category = mysqli_query($con, "SELECT `cat_name` FROM `category` ORDER BY `cat_name` ASC");
+                                        $category = mysqli_query($con, "SELECT * FROM `category` ORDER BY `cat_name` ASC");
                                         while ($category_fetch = mysqli_fetch_array($category)) {
 
                                         ?>
@@ -230,7 +230,7 @@ include 'conn.php';
                                         <select class="form-select border-0" name="cat_srch" id="cat_srch" required>
                                             <option selected>Category</option>
                                             <?php
-                                            if (mysqli_num_rows($jobsel = mysqli_query($con, "SELECT `cat_name` FROM `category` ORDER BY `cat_name` ASC"))) {
+                                            if (mysqli_num_rows($jobsel = mysqli_query($con, "SELECT * FROM `category` ORDER BY `cat_name` ASC"))) {
                                                 while ($selfetch = mysqli_fetch_array($jobsel)) {
                                             ?>
                                                     <option value="<?php echo $selfetch['cat_id'] ?>"><?php echo $selfetch['cat_name'] ?></option>
@@ -999,7 +999,11 @@ include 'conn.php';
         </div>
         <!-- Testimonial End -->
 
-        <input type="hidden" id="your_id" value="<?php echo $_SESSION['auth_user']['User_ID']; ?>">
+        <?php if (isset($_SESSION['seeker'])) {
+        ?>
+            <input type="hidden" id="your_id" value="<?php echo $_SESSION['auth_user']['User_ID']; ?>">
+        <?php
+        } ?>
 
     </div>
     <?php

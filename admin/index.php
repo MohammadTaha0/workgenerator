@@ -1,6 +1,16 @@
 <?php
 session_start();
 include '../conn.php';
+if (!isset($_SESSION['admin'])) {
+    header("Location: login.php");
+}
+
+if (isset($_POST['log'])) {
+    session_unset();
+    echo "logout";
+    header("LOcation: index.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -63,6 +73,9 @@ include '../conn.php';
             </div>
         </div>
     </div>
+    <button type="button" class="btn btn-danger text-capitalize px-3 fs-6 position-fixed top-0 end-0" id="logout">
+        logout
+    </button>
     <script>
         $(document).ready(function() {
             function min() {
@@ -76,7 +89,7 @@ include '../conn.php';
                 })
             }
             min()
-            setInterval(min,5000)
+            setInterval(min, 5000)
             $("#save").click(function() {
                 id = $(this).data('id');
                 value = $("#status").val();
@@ -90,6 +103,18 @@ include '../conn.php';
                         $("#ress").load("records.php");
                     }
                 )
+            })
+            $("#logout").click(function() {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        log: "log"
+                    },
+                    success: function(logout) {
+                        alert("Logged out Successfully");
+                        window.location.href="login.php";
+                    }
+                })
             })
         });
     </script>
