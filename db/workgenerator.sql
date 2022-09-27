@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2022 at 09:43 AM
+-- Generation Time: Sep 27, 2022 at 08:33 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -124,16 +124,8 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`ID`, `EIN`, `emp_img`, `Name`, `Email`, `Contact`, `Username`, `Password`, `Company_Name`, `Address`, `Number_of_Employees`, `Type_of_Organization`, `Status`, `role`) VALUES
-(10, 949494, 'img/employer/1799173984com-logo-3.jpg', 'Employer1', 'employer1@gmail.com', '03432959411', 'emp1', 'emp1emp1', 'Venture Dive', 'Shahr-e-Faisal, Karchi, Pakistan ', 1300, 'Software Organization', 'inactive', 0),
-(11, 424242, 'img/employer/1678405872com-logo-2.jpg', 'Emp2', 'Emp2@gmail.com', '456554213', 'emp2', 'emp2emp2', 'SoftTraders', 'Shahr-e-Faisal, Karchi, Pakistan ', 5, 'Project Organization', 'active', 0),
-(12, 45444443, '', '', '', '', '', '', '', '', 0, '', 'inactive', 0),
-(15, 2147483647, '', 'Taha', 'Tha@gmail.com', '897677665', 'emp55', 'emp55', 'jkhjkhjh', 'ghjghjg', 0, 'fgdfgdgf', 'inactive', 0),
-(46, 66666, '', 'nwnme', 'newemail', '7897897', 'nuer', 'npass', 'ncompany', 'nddress', 0, 'norg', 'inactive', 0),
-(47, 799856, '', 'your', 'taha@gmailkl', 'ghghj', 'emp56', '5555', '55555', '555', 55, '555', 'inactive', 0),
-(48, 454545, '', 'taha', 'admin@,mnmn', '7865654132', 'tahaaa', 'aaa', 'aaaa', 'aaa', 11, 'aaa', 'inactive', 0),
-(49, 424247, '', 'thistaha', 'taha@gmail.com', 'taha', 'emp556', 'ghjghg', 'gfghf', 'ghfgh', 44, 'ngnghb', 'inactive', 0),
-(50, 2147483647, 'img/employer/ear-1-removebg-preview.png', 'Mohammad Taha emp', 'emp4@gmail.com', '034329594111', 'tahaahat', 'ahat', 'ahat', 'ahat', 67, 'ahat', 'inactive', 0),
-(51, 4545451, 'img/employer/chair2-3.png', 'Seeker', 'emp22@gmail.com', '78656541321', 'taha1', '11111111', '1111111', '111', 11, '11', 'inactive', 0);
+(10, 949494, 'img/employer/1799173984com-logo-3.jpg', 'Employer1', 'employer1@gmail.com', '03432959411', 'emp1', 'emp1emp1', 'Software House', 'Shahr-e-Faisal, Karchi, Pakistan ', 1300, 'Software Organization', 'inactive', 0),
+(11, 424242, 'img/employer/1678405872com-logo-2.jpg', 'Emp2', 'Emp2@gmail.com', '456554213', 'emp2', 'emp2emp2', 'SoftTraders', 'Shahr-e-Faisal, Karchi, Pakistan ', 5, 'Project Organization', 'active', 0);
 
 -- --------------------------------------------------------
 
