@@ -39,7 +39,6 @@ $row1 = mysqli_fetch_array($sql1);
 
         select {
             font-size: 16px !important;
-            /* top: 0% !important; */
             padding: 0px 20px 0px 15px !important;
             position: unset !important;
         }
@@ -47,10 +46,6 @@ $row1 = mysqli_fetch_array($sql1);
         .form-floating label {
             top: 0% !important;
             font-size: 14px;
-        }
-
-        #frommm {
-            /* background: linear-gradient(to right,rgba(122,444,12),rgba(101,174,1)); */
         }
     </style>
 </head>
