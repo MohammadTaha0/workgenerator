@@ -18,17 +18,17 @@ if (mysqli_num_rows($sql) > 0) {
         <div class="col-3 shadow py-2 mx-1" data-role='talent_res'>
             <div class="row mx-2 justify-content-center align-items-center">
                 <div class="col-12 rounded-circle d-flex justify-content-center align-items-center" style="height: 140px; width: 140px;">
-                    <a href="profile.php?user_id=<?php echo $fetch['User_ID']; ?>"><img src="<?php echo $fetch['img'] ?>" class="d-block w-100 rounded-circle" alt=""></a>
+                    <a href="talent_profile.php?user_id=<?php echo $fetch['User_ID']; ?>"><img src="<?php echo $fetch['img'] ?>" class="d-block w-100 rounded-circle" alt=""></a>
                 </div>
                 <div class="col-10">
                     <div class="row justify-content-between text-center">
                         <div class="col-12">
-                            <a href="profile.php?user_id=<?php echo $fetch['User_ID']; ?>" class="h6 fs-5"> <?php echo $fetch['Name'] ?> </a>
+                            <a href="talent_profile.php?user_id=<?php echo $fetch['User_ID']; ?>" class="h6 fs-5"> <?php echo $fetch['Name'] ?> </a>
                             <br>
                             <span class="badge text-dark"> <?php echo $fetchcat['cat_name'] ?> </span>
                         </div>
                         <div class="col-12 my-2">
-                            <a href="profile.php?user_id=<?php echo $fetch['User_ID']; ?>" class="btn btn-primary">View Profile</a>
+                            <form action="talent_profile.php" method="POST"><a href="talent_profile.php?user_id=<?php echo $fetch['User_ID']; ?>" class="btn btn-primary" name='Talentprofile'>View Profile</a></form>
                         </div>
                     </div>
                 </div>

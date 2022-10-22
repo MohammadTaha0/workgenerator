@@ -1,10 +1,14 @@
 <?php
 session_start();
 include 'conn.php';
-if (isset($_SESSION['employer'])) {
-    $user_id = $_SESSION['$session_user_id'];
+if (isset($_GET['talentProfile'])) {
+    $user_id = $_GET['user_id'];
 } else {
-    $user_id = $_SESSION['auth_user']['User_ID'];
+    if (isset($_SESSION['employer'])) {
+        $user_id = $_SESSION['$session_user_id'];
+    } else {
+        $user_id = $_SESSION['auth_user']['User_ID'];
+    }
 }
 $seek_pro = mysqli_query($con, "SELECT * FROM `seeker_profile` WHERE `User_ID`='$user_id'");
 $fet_pro = mysqli_fetch_assoc($seek_pro);

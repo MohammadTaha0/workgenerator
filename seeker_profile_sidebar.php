@@ -1,10 +1,14 @@
 <?php
 session_start();
 include 'conn.php';
-if (isset($_SESSION['employer'])) {
-    $user_id = $_SESSION['$session_user_id'];
+if (isset($_GET['talentProfile'])) {
+    $user_id = $_GET['user_id'];
 } else {
-    $user_id = $_SESSION['auth_user']['User_ID'];
+    if (isset($_SESSION['employer'])) {
+        $user_id = $_SESSION['$session_user_id'];
+    } else {
+        $user_id = $_SESSION['auth_user']['User_ID'];
+    }
 }
 $seek_pro = mysqli_query($con, "SELECT * FROM `seeker_profile` WHERE `User_ID`='$user_id'");
 $fet_pro = mysqli_fetch_assoc($seek_pro);
@@ -16,6 +20,13 @@ $fet_seek = mysqli_fetch_assoc($seek);
 $_SESSION['old_img'] = $fet_pro['img'];
 ?>
 <style>
+    #pro_img_click {
+        object-fit: cover;
+        border-radius: 50% !important;
+        width: 150px !important;
+        height: 150px !important;
+    }
+
     span button {
         transition: .5s;
         opacity: 0;
@@ -47,25 +58,34 @@ $_SESSION['old_img'] = $fet_pro['img'];
     }
     ?>
 </style>
-<div class="modal fade" id="updmodal_img" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-capitalize" id="exampleModalLabel">Edit Your Name</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="upload">
-                <div class="modal-body">
-                    <div class="col-12 mb-3">
-                        <input type="file" class="form-control" name="image" id="file" placeholder="">
+<?php
+if (isset($_GET['talentProfile'])) {
+    echo '';
+} else {
+    if (isset($_SESSION['employer']) || isset($_SESSION['auth_user'])) {
+?>
+        <div class="modal fade" id="updmodal_img" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-capitalize" id="exampleModalLabel">Edit Your Name</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" data-bs-dismiss="modal" id="upd_img" class="btn btn-primary">Save</button>
+                    <form id="upload">
+                        <div class="modal-body">
+                            <div class="col-12 mb-3">
+                                <input type="file" class="form-control" name="image" id="file" placeholder="">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" data-bs-dismiss="modal" id="upd_img" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
+<?php
+    }
+} ?>
 <div class="card">
     <div class="card-body">
         <div class="d-flex flex-column align-items-center text-center position-relative">
@@ -95,9 +115,11 @@ $_SESSION['old_img'] = $fet_pro['img'];
                 }
                 ?>
             </div>
+
             <div class="position-absolute shadow" id="click_img_show" data-bs-target="#updmodal_img" data-bs-toggle="modal" data-bs-whatever="@mdo">
                 <img src="<?php echo $fet_pro['img'] ?>" alt="Admin" class="" width="160">
             </div>
+
         </div>
     </div>
 </div>
